@@ -41,7 +41,7 @@ void collections()
     assert(aa == aal);
     ArrayList<String> al = ArrayList { elements = [ "apple", "banana", "cherry" ]; };
     Array<String> a = arrayOfSize(5, "");
-    Float[] f =  [ 42.0, 2.1, 5.0, 0.1, 391.0 ];
+    Float[] f =  [ 42.0, 2.1, 5.0, 0.1, 391.0, 0.555, +1.0e5, -5.5e-5, 1m, 2u, 3n, 4p, 5f, 1.0k, 2.0M, 3.0G, 4.0T, 5.0P ];
 
     al.add("orange");
     assert(al.size == 4);
@@ -355,6 +355,7 @@ void classes()
 void regExesAndExceptions()
 {
 	String email = "test@example.com";
+	// Using Java's regexes since they are not implemented / available directly in Ceylon
 	Pattern pattern = Pattern.compile("""[^@]+@[\w.-]+""");
 	Matcher matcher = pattern.matcher(javaString(email));
 	print(matcher.matches());

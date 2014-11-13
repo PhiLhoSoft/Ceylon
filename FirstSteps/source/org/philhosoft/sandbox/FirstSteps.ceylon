@@ -294,6 +294,7 @@ class FirstSteps()
 		print("Value: ``concrete.getValue()`` with weight of ``concrete.weight``");
 
 		title("Simple interface declaration and usage");
+		// Don't try to find a meaning to the following mindless code!
 		interface BluePrint
 		{
 			// formal = to be defined (abstract)
@@ -506,51 +507,5 @@ class FirstSteps()
 		{
 			print("``number`` - ``name`` with ``items``");
 		}
-	}
-
-	shared void experiments()
-	{
-		stepTitle("Some experiments");
-
-		/* Foo /* And more /* (Nested comments) */ */ Bar */
-
-		void mutating(variable Integer n, variable LinkedList<String> l) { n += 4; l.set(1, "Yo"); }
-		void enabling(String? maybe)
-		{
-			assert(exists maybe);
-			print(maybe);
-		}
-
-		variable Integer n = 5;
-		variable LinkedList<String> l = LinkedList([ "Foo", "Bar", "Baz" ]);
-		mutating(n, l);
-		print(n);
-		print(l);
-
-		String? possible = "Yeah";
-		enabling(possible); // The assert inside doesn't validate here
-		String sure = "Hey " + (possible else "Bah");
-		print(sure);
-
-		// Can we have an interface member not shared?
-		interface HiddingStuff
-		{
-			// Variables (and values) must be shared because they *must* be refined (defined, actually).
-			// They cannot be assigned values (no constants in interfaces).
-			shared formal variable Integer c;
-			shared formal String name;
-			// A member can be private and not formal, actually
-			void incr() { c++; }
-			shared Integer counter() { incr(); return c; }
-		}
-		class Stuff() satisfies HiddingStuff
-		{
-			shared actual variable Integer c = 0;
-			shared actual String name = "S-";
-
-			string => name + counter().string;
-		}
-		Stuff s = Stuff();
-		print("``s`` ``s`` ``s`` ``s``");
 	}
 }

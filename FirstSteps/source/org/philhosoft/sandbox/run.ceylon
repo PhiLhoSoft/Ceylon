@@ -9,8 +9,6 @@ shared void run()
 	firstSteps.declaringTypes();
 	firstSteps.accessors();
 	firstSteps.namedArguments();
-
-	firstSteps.experiments();
 }
 
 void stepTitle(String title)
