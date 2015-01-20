@@ -21,3 +21,9 @@ input
 {
 	font-size: 1.2rem;
 }
+
+pre
+{
+	max-width: 800px;
+	word-wrap: break-word;
+}

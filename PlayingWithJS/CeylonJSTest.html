@@ -3,8 +3,11 @@
 <head>
 	<meta charset='utf-8'>
 	<title>CeylonJS Test</title>
+
+	<link rel="stylesheet" href="style/main.css">
 	<script src="script/require/2.1.15/require.js"></script>
-	<script>
+
+<script>
 require.config(
 {
 	// Location of compiled modules of this project
@@ -21,9 +24,41 @@ require(
 	[ 'org/philhosoft/sandbox/web/1.0.0/org.philhosoft.sandbox.web-1.0.0' ],
 	function (module) { application = module; application.run(); }
 );
-	</script>
-	<link rel="stylesheet" href="style/main.css">
+</script>
+<script>
+function exposed(param)
+{
+	element = document.getElementById("information");
+	element.innerHTML += "\n<br>\nCeylon called with: " + param;
+}
+
+// http://www.html5rocks.com/en/tutorials/cors/
+function createCORSRequest(method, url)
+{
+	var xhr = new XMLHttpRequest();
+	if ("withCredentials" in xhr)
+	{
+		// Check if the XMLHttpRequest object has a "withCredentials" property.
+		// "withCredentials" only exists on XMLHTTPRequest2 objects.
+		xhr.open(method, url, true);
+	}
+	else if (typeof XDomainRequest != "undefined")
+	{
+		// Otherwise, check if XDomainRequest.
+		// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+		xhr = new XDomainRequest();
+		xhr.open(method, url);
+	}
+	else
+	{
+		// Otherwise, CORS is not supported by the browser.
+		xhr = null;
+	}
+	return xhr;
+}
+</script>
 </head>
+
 <body>
 	<h1>CeylonJS Test</h1>
 	<div id="container">
@@ -31,6 +66,7 @@ require(
 			Loading application, please wait...
 		</div>
 		<input type="submit"  value="Update time" onclick="application.updateTime(this)"/>
+		<input type="button"  value="Call server" onclick="application.callServer(this)"/>
 	</div>
 </body>
 </html>
