@@ -507,5 +507,8 @@ class FirstSteps()
 		{
 			print("``number`` - ``name`` with ``items``");
 		}
+		doStuff(0, "zero", {});
+		doStuff(5, "five", [ "1", "2", "3", "4", "5" ]);
+		doStuff { name = "three"; items = [ "3", "4", "5" ]; number = 314; };
 	}
 }

@@ -1,7 +1,9 @@
+*.class
 *.lnk
 *.old
+.ceylon/
+.exploded/
 .settings/
+bin/
+classes/
 modules/
-.project
-.classpath
-/bin/
