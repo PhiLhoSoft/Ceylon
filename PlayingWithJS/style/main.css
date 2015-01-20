@@ -1,0 +1,23 @@
+body
+{
+	max-width: 800px;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+}
+
+h1
+{
+	color: #559;
+}
+
+input
+{
+	margin-top: 20px;
+	font-size: 1.2rem;
+	padding: 4px 12px;
+}
+
+#date-information
+{
+	font-size: 1.2rem;
+}

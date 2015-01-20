@@ -1,0 +1,35 @@
+
+[formatter]
+spaceBeforeAnnotationPositionalArgumentList=false
+spaceBeforeMethodOrClassPositionalArgumentList=false
+failFast=true
+indentMode=4 spaces
+lineBreak=lf
+braceOnOwnLine=true
+elseOnOwnLine=true
+indentBeforeTypeInfo=2
+indentBlankLines=true
+inlineAnnotations=abstract actual annotation default final formal late native optional shared variable
+lineBreakStrategy=default
+lineBreaksAfterLineComment=1..3
+maxLineLength=unlimited
+spaceAroundSatisfiesOf=true
+indentationAfterSpecifierExpressionStart=addIndentBefore
+lineBreaksAfterMultiComment=0..3
+lineBreaksAfterSingleComment=0..3
+lineBreaksBeforeLineComment=0..3
+lineBreaksBeforeMultiComment=0..3
+lineBreaksBeforeSingleComment=0..3
+lineBreaksBetweenImportElements=1..1
+lineBreaksInTypeParameterList=0..1
+spaceAfterControlStructureKeyword=true
+spaceAfterParamListClosingParen=false
+spaceAfterParamListOpeningParen=false
+spaceAfterSequenceEnumerationOpeningBrace=true
+spaceAfterTypeArgOrParamListComma=true
+spaceAfterValueIteratorOpeningParenthesis=false
+spaceAroundImportAliasEqualsSign=true
+spaceBeforeParamListClosingParen=false
+spaceBeforeParamListOpeningParen=false
+spaceBeforeSequenceEnumerationClosingBrace=true
+spaceBeforeValueIteratorClosingParenthesis=false
