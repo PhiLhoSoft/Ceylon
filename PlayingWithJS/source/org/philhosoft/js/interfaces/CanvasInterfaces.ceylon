@@ -1,3 +1,4 @@
+// Type definitions for the canvas element (HTMLCanvasElement) and related objects
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
 dynamic IHTMLCanvasElement satisfies IHTMLElement
@@ -9,6 +10,7 @@ dynamic IHTMLCanvasElement satisfies IHTMLElement
 	shared formal ICanvasRenderingContext2D | IWebGLRenderingContext getContext(String contextId); // "2d" or "webgl"
 }
 
+// Instanciate a new dynamic canvas element and cast it to the interface defined above.
 IHTMLCanvasElement newHTMLCanvasElement()
 {
 	dynamic { return HTMLCanvasElement(); }
