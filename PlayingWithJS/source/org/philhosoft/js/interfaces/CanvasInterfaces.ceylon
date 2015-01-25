@@ -5,16 +5,17 @@ dynamic IHTMLCanvasElement satisfies IHTMLElement
 {
 	shared formal variable Integer width;
 	shared formal variable Integer height;
-	shared formal String toDataURL();
-	shared formal IBlob toBlob();
+	shared formal String toDataURL(String type = "image/png", Float jpegCompressionRatio = 1.0);
+//	shared formal IBlob toBlob();
 	shared formal ICanvasRenderingContext2D | IWebGLRenderingContext getContext(String contextId); // "2d" or "webgl"
 }
 
 // Instanciate a new dynamic canvas element and cast it to the interface defined above.
-IHTMLCanvasElement newHTMLCanvasElement()
-{
-	dynamic { return HTMLCanvasElement(); }
-}
+// Not a constructor...
+//IHTMLCanvasElement newHTMLCanvasElement()
+//{
+//	dynamic { return HTMLCanvasElement(); }
+//}
 
 dynamic IWebGLRenderingContext
 {

@@ -1,0 +1,91 @@
+http://codegolf.stackexchange.com/questions/44680/showcase-your-language-one-vote-at-a-time-experimental-challenge/44761?sgp=2#44761
+
+# Ceylon
+
+**Factoid**
+
+The Ceylon name is a play on the Java name (since it is a JVM language, and like many others, it secretly hope to be a better Java). Java and Ceylon (now Sri Lanka) are both islands in the Indian Ocean, one growing mostly coffee, the other growing mostly tea...
+
+
+**Length 1**
+
+    ;
+
+Semi-colons are mandatory in Ceylon, unlike several modern languages. As said in the [language FAQ][1], it is a compromise in syntax.
+Note in that languages where semi-colons are optional (JavaScript, Scala, Lua, etc.) but where lines can be split arbitrarily, there are often cases where missing semi-colons can result in ambiguous or unexpected expressions...
+
+  [1]: http://ceylon-lang.org/documentation/1.1/faq/language-design/#semicolons_at_the_end_of_line
+
+
+**Length 2**
+
+    4T
+
+is a valid literal number in Ceylon. It reads "four tera" and its value is `4_000_000_000_000`. Ceylon supports, like Java, digit grouping, and unlike lot of languages, number suffixes from `f` (femto, `e-15`) to `P` (peta, `e+15`).
+
+
+**Length 3**
+
+    A|B
+
+is a type which is the union of two disjoint types. This means that the value with this type can be of either `A` or `B` type. Since Ceylon does not support method overloading, it allows to define methods accepting various inputs in the same parameter, or various outputs. This feature is great to indicate a value can be null (it can't by default) and to support JavaScript dynamic types.
+
+
+**Length 4**
+
+    {C*}
+
+Type annotation for a stream of instances of the class `C`. This stream can be evaluated lazily. That's actually a shortcut for the `Iterable<C>` type.
+
+
+**Length 5**
+
+    value
+
+Ceylon is strictly typed, but is able of type inference, ie. you don't have to specify the type of a local variable (or of the return value of a local function) if the compiler can infer it.
+You _have_ to spell it out for class fields, function parameters, etc.
+So you can declare a local variable with the `value` keyword in place of the real type, the compiler will guess its type from its assignment. Note that the term "variable" isn't right here, as it will be immutable (the default of local declarations, you have to declare them variable explicitly to mutate them).
+I will continue to use the term variable here, even if they are immutable...
+
+
+**Length 6**
+
+    Float?
+
+Type of a float variable that might be null. By default, Ceylon values cannot be null. We have to declare explicitly if null is possible in the type of the declaration itself. And then, the Ceylon compiler forces us to check if the value is null. Thus, we can never have a `NullPointerException`, which doesn't exists in the language! It is one of the rare totally null-safe languages (Rust is another one, with a very different approach).
+Note that this type declaration is actually a shortcut for `Float|Null`, ie. as seen above, the union of Float and of the Null type (which has only one instance: `null`).
+Also note that `Float` is a class on its own, with methods. It is optimized to the Java `float` primitive by the compiler, though.
+
+
+**Length 7**
+
+    Float[]
+
+Type of a sequence of float values which can be empty. It is a shortcut for `Sequential<Float>` and can be written `[Float*]`, similar to the stream / iterable annotation. The difference is that a sequential can be indexed with the `[i]` notation, like an array. For the record, a `Sequence<T>` (or `[T+]`) is a sequential that cannot be empty.
+
+
+**Length 8**
+
+    a else b
+
+As seen above, if `a` is of type `A?` ie. can be `null`, you cannot use it without checking if it is null. It cannot be done with `a == null`, Ceylon offers various ways to check this. The code above is one of them: if `a` isn't null, use its value, otherwise, use the value of `b` (which cannot be null, of course; we can chain the checks...).
+
+
+**Length 9**
+
+    \{BULLET}
+
+is a valid Ceylon character: you can put any Unicode name between the braces.
+
+
+6
+[1..5]
+7
+Float[]
+8
+String[]
+10
+if(is A a)
+12
+f=(A p)=>-p;
+\{BULLET}

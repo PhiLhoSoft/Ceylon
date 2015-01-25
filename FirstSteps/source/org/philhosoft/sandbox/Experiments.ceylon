@@ -4,7 +4,7 @@ shared void experiments()
 {
 	/* Foo /* And more /* (Nested comments) */ */ Bar */
 
-	void mutating(variable Integer n, variable LinkedList<String> l) { n += 4; l.set(1, "Yo"); }
+	void mutating(variable Integer n, variable LinkedList<String> ll) { n += 4; ll.set(1, "Yo"); }
 	void enabling(String? maybe)
 	{
 		assert(exists maybe);
@@ -13,7 +13,8 @@ shared void experiments()
 
 	variable Integer n = 5;
 	variable LinkedList<String> l = LinkedList([ "Foo", "Bar", "Baz" ]);
-	mutating(n, l);
+	value transforming = mutating;
+	transforming(n, l);
 	print(n);
 	print(l);
 
@@ -50,6 +51,10 @@ shared void experiments()
 	ℤℇÅℜ().ℏⅇℒℲ();
 
 	assert(1_000_000_000_000 == 1T);
+
+	String double(String p) => p + " / " + p;
+	value evaluated = "Some `` double("zou ``double("zip")`` bang") `` String";
+	print(evaluated);
 
 	class FlowBased()
 	{

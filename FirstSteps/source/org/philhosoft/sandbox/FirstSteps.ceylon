@@ -107,22 +107,25 @@ class FirstSteps()
 		Iterable<String> iterable = { "Alpha", "Beta", "Gamma", "Alpha" };
 		// Official name for [String+]
 		Sequence<String> sequence = [ "Harry", "Ron", "Hermione" ];
+		// Official name for [String*] aka. String[]
+		Sequential<String> sequential = [];
 		// [String->String+]
 		Sequence<Entry<String, String>> sequenceOfEntries = [ "one"->"ichi", "two"->"ni", "three"->"san", "seven"->"shichi", "seven"->"nana" ];
 
 		// Just use them...
 		title("Iterable / Sequence API");
-		print(iterable.contains("Alpha"));
-		print(sequence.filter((String name) => name.startsWith("H")));
-		print(sequenceOfEntries.collect((String->String element) => element.key == "seven" then "Foo" else element.item));
+		print("Contains: ``iterable.contains("Alpha")``");
+		print("Filter: " + sequence.filter((String name) => name.startsWith("H")).string);
+		print("Empty sequential: ``sequential.empty``");
+		print("Collect: " + sequenceOfEntries.collect((String->String element) => element.key == "seven" then "Foo" else element.item).string);
 
 		title("List of strings (array)");
 		List<String> list = arrayOfSize { size = 5; element = "Yay!"; }; // Named parameters
 		assert(is Array<String> list); // Narrow down the type to Array, which is mutable
-		list.set(2, "Wee!");
+		list.set(2, "Wee! \{BULLET}");
 		print(list);
 
-		title("List of strings (lnked list)");
+		title("List of strings (linked list)");
 		List<String> llist = LinkedList(sequence);
 		print(llist);
 
