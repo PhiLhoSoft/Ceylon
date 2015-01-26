@@ -11,7 +11,7 @@ The Ceylon name is a play on the Java name (since it is a JVM language, and like
 
     ;
 
-Semi-colons are mandatory in Ceylon, unlike several modern languages. As said in the [language FAQ][1], it is a compromise in syntax.
+Semi-colons are mandatory in Ceylon, unlike several modern languages. As said in the [language FAQ][1], it is a compromise in syntax.<br>
 Note in that languages where semi-colons are optional (JavaScript, Scala, Lua, etc.) but where lines can be split arbitrarily, there are often cases where missing semi-colons can result in ambiguous or unexpected expressions...
 
   [1]: http://ceylon-lang.org/documentation/1.1/faq/language-design/#semicolons_at_the_end_of_line
@@ -42,9 +42,9 @@ Type annotation for a stream of instances of the class `C`. This stream can be e
 
     value
 
-Ceylon is strictly typed, but is able of type inference, ie. you don't have to specify the type of a local variable (or of the return value of a local function) if the compiler can infer it.
-You _have_ to spell it out for class fields, function parameters, etc.
-So you can declare a local variable with the `value` keyword in place of the real type, the compiler will guess its type from its assignment. Note that the term "variable" isn't right here, as it will be immutable (the default of local declarations, you have to declare them variable explicitly to mutate them).
+Ceylon is strictly typed, but is able of type inference, ie. you don't have to specify the type of a local variable (or of the return value of a local function) if the compiler can infer it.<br>
+You _have_ to spell it out for class fields, function parameters, etc.<br>
+So you can declare a local variable with the `value` keyword in place of the real type, the compiler will guess its type from its assignment. Note that the term "variable" isn't right here, as it will be immutable (the default of local declarations, you have to declare them variable explicitly to mutate them).<br>
 I will continue to use the term variable here, even if they are immutable...
 
 
@@ -52,8 +52,8 @@ I will continue to use the term variable here, even if they are immutable...
 
     Float?
 
-Type of a float variable that might be null. By default, Ceylon values cannot be null. We have to declare explicitly if null is possible in the type of the declaration itself. And then, the Ceylon compiler forces us to check if the value is null. Thus, we can never have a `NullPointerException`, which doesn't exists in the language! It is one of the rare totally null-safe languages (Rust is another one, with a very different approach).
-Note that this type declaration is actually a shortcut for `Float|Null`, ie. as seen above, the union of Float and of the Null type (which has only one instance: `null`).
+Type of a float variable that might be null. By default, Ceylon values cannot be null. We have to declare explicitly if null is possible in the type of the declaration itself. And then, the Ceylon compiler forces us to check if the value is null. Thus, we can never have a `NullPointerException`, which doesn't exists in the language! It is one of the rare totally null-safe languages (Rust is another one, with a very different approach).<br>
+Note that this type declaration is actually a shortcut for `Float|Null`, ie. as seen above, the union of `Float` and of the `Null` type (which has only one instance: `null`).<br>
 Also note that `Float` is a class on its own, with methods. It is optimized to the Java `float` primitive by the compiler, though.
 
 
@@ -75,17 +75,71 @@ As seen above, if `a` is of type `A?` ie. can be `null`, you cannot use it witho
 
     \{BULLET}
 
-is a valid Ceylon character: you can put any Unicode name between the braces.
+is a valid Ceylon character: you can put any Unicode name between the braces, like `\{CARRIAGE RETURN (CR)}` or `\{WOMAN WITH BUNNY EARS}`.
 
 
-6
-[1..5]
-7
-Float[]
-8
-String[]
-10
-if(is A a)
-12
-f=(A p)=>-p;
-\{BULLET}
+**Length 10**
+
+    if(is T v)
+
+As we seen, we can define union types, meaning that a variable can have one of several types, eg. `Integer` or `Float` (or `Byte` or... etc.).<br>
+If all the subtypes derivate from the same interface, we can use the methods of the parent interface.<br>
+For example, if we have `ArrayList<String> | LinkedList<String> dualList`, we can use `dualList.size` directly.<br>
+To use a method specific to one of the member of the union, you have to be sure it is of the given type.
+For this, Ceylon offers a mechanism allowing in the same shot to check the type, and to downcast it to the specific type: `if (is ArrayList dualList) { Integer capacity = dualList.capacity; }` is legal because at this point, the compiler is sure to have an `ArrayList`.<br>
+It is equivalent to Java's `instanceof` and cast in the same shot, just safer: in Java, you can cast to something else than the type you checked!<br>
+Note that `is` is also an operator (resulting in a `Boolean`) that doesn't narrow down the type. `Boolean b = v is T;`
+
+
+**Length 11**
+
+    "N ``p.n``"
+
+Ceylon has string interpolation: you can embed in a literal string an expression between a pair of double backticks. The value of the expression will replace this placeholder. You can have simple local values, field access as shown, complex expressions or function calls. You can have literal strings (with interpolation too!) inside these expressions.
+
+
+**Length 12**
+
+    f=(A p)=>-p;
+
+Assigns to the f variable an anonymous function defined with the short syntax (fat arrow).
+Functions are first-class citizens in Ceylon, they are just objects that can be assigned, passed as parameter, returned from another function, etc.<br>
+To fit in the length, I omitted the declaration of `f` which can be done earlier, for example: `A(A) f;`<br>
+Here, `f` returns the negation of the `p` parameter which has the type `A`.<br>
+Notice the usage of the negation operator `-` which must have been overloaded in the definition of `A`, which then must satisfy the interface `Invertible<A>`.<br>
+Ceylon doesn't support to define arbitrary operators (unlike Scala, where users can get crazy with this feature... :-)), nor even "true" operator overloading, but it supports operator polymorphism: operators are defined (by name, eg. `negated` for the unary minus) in specific interfaces (here `Invertible`) that classes needing these operators must implement (must satisfy, in Ceylon vocabulary).
+
+
+**Length 13**
+
+    C<out T>(T t)
+
+Declaration-site variance: the class `C` (the `class` keyword has been omitted for brevity) declares, in its definition, its type parameter `T` to be _covariant_, so `C<Car>` is a subtype of `C<Vehicle>` if `Car` is a subtype of `Vehicle`.<br>
+Collection interfaces (immutable by default), like `List` or `Set` are declared covariants.<br>
+Mutable collections must satisfy an interface with a _contravariant_ declaration, defining methods taking the given class or any supertype of it: a mutable list of `Vehicle` must accept adding `Car`s.<br>
+Java is using use-site variance, like `List<? extends Car>`, defined on each `List` declaration. It is a bit more flexible but puts the burden on the users of the class, so is more cumbersome.<br>
+Since version 1.1, Ceylon also support use-site variance for Java interoperability reasons, but promotes declaration-site variance as the preferred method.<br>
+Also note the parameter list of the class: it defines both the parameters of the constructor of the class, and the corresponding fields, in the same shot! No need for these cumbersome `this.t = t;`...
+
+
+**Length 14**
+
+    for(n in 0..5)
+
+Ceylon doesn't have the classical C-like numerical `for` loop. Instead, it supports range definitions, and allows to iterate on them.<br>
+Here, `n` (whose type, `Integer`, is inferred) will go from 0 to 5, included. We could have written `0:6` instead (start, number of items). A range like `5..0` allows count-downs.
+
+
+
+
+
+
+# Proposals from  Lucas Werkmeister
+
+**Length 10** ["Mike",9] Tuples (and tuple types, `[String,Integer]`) are written in brackets. However, they’re not a magical built-in construct: That syntax is just syntactic sugar for the regular `Tuple` class, which forms a typed linked list. When you access a tuple by a constant index (e. g. `t[1]`), the compiler arrives at the correct type (here, the second element type of the tuple type) by rewriting it to a series of `(.rest)*.first` (here, `t[1]` = `t.rest.first`), which navigates the linked list of types correctly.
+
+**Length 11** class C(xy) Classes have parameter lists; the class body contains not only a *declaration section* (containing regular attributes, methods, etc.), but also an *initializer section*, which is executed each time the class is instantiated. This allows you to check preconditions and run other initialization code like in a constructor in other languages, but for simple “container” classes removes a lot of boilerplate (`this.name = name; this.age = age;`) since the initializer parameter can also be `shared` as an attribute of the class. Since this can lead to cluttering in the class’ parameter list, Ceylon also allows you to split the declaration of a parameter out of the parameter list; in the example above, `xy` would be declared somewhere in the body (e. g. `shared [Float,Float] xy;`). (For the record, the next version of Ceylon will introduce actual [constructors](https://github.com/ceylon/ceylon-spec/issues/796) as well.)
+
+**Length 12** "Hi ``you``" Ceylon uses double backticks for string interpolation. You can also use the `+` operator like in some other languages (`String` satisfies `Summable`), but using backticks is better because it doesn’t break up multi-line strings: With backticks, the later fragments will still be aligned to the column of the original string start, whereas with `+`, a new string literal starts, which has to be aligned separately.
+
+**Length 13** C<out T>(T t) Ceylon features **declaration-site variance**: The class `C` declares its type parameter to be *covariant*, so therefore `C<Car>` is a subtype of `C<Vehicle>` automatically. This applies naturally to unmodifiable collections: Of course a `List<Integer>` is also a `List<Number>`. In languages with *use-site variance*, on the other hand, you would have to specify the variance each time you use it – for example, in Java: `List<? extends Car>`.

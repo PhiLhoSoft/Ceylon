@@ -1,4 +1,4 @@
-import ceylon.collection { LinkedList }
+import ceylon.collection { LinkedList, ArrayList }
 
 shared void experiments()
 {
@@ -12,16 +12,52 @@ shared void experiments()
 	}
 
 	variable Integer n = 5;
-	variable LinkedList<String> l = LinkedList([ "Foo", "Bar", "Baz" ]);
+	variable LinkedList<String> lls = LinkedList([ "Foo", "Bar", "Baz" ]);
 	value transforming = mutating;
-	transforming(n, l);
-	print(n);
-	print(l);
+	transforming(n, lls);
+	print("Changing value: ``n`` and list: ``lls``");
+
+	class Parent(shared String name) { string => name; }
+	class Child(String name) extends Parent(name) {}
+	variable LinkedList<Parent> llp = LinkedList([ Parent("Foo"), Parent("Bar"), Parent("Baz") ]);
+	llp.add(Child("Moo"));
+	print(llp);
 
 	String? possible = "Yeah";
 	enabling(possible); // The assert inside doesn't validate here
 	String sure = "Hey " + (possible else "Bah");
 	print(sure);
+
+	List<String> nl = [ "foo", "bar" ];
+	print(nl.size);
+	ArrayList<String> | LinkedList<String> dualList = ArrayList { elements = { "Foo", "Bar" }; };
+	print(dualList.size);
+	print("Size of ArrayList | LinkedList: ``dualList.size``");
+	Boolean isAL = dualList is ArrayList<String>;
+	if (is ArrayList<String> dualList)
+	{
+		Integer capacity = dualList.capacity;
+		print("ArrayList? ``isAL`` -> capacity: ``capacity``");
+	}
+	class Neg(Integer n) satisfies Invertible<Neg>
+	{
+		shared actual Neg negated => Neg(-n);
+
+		shared actual Neg plus(Neg other) => Neg(other.n + n);
+
+		string => n.string;
+	}
+	Neg(Neg) f;
+	f=(Neg p)=>-p;
+	Neg neg = Neg(42);
+	print("Negation: ``-neg`` / Addition: ``neg + neg`` / Subtraction: ``neg - -neg``");
+
+	Integer ni = 42;
+	Float nf = -52.0;
+	print("``ni.sign`` / ``nf.sign``");
+	Integer | Float nif = -314;
+	assert(is Integer nif);
+	print("Sign of Integer | Float: ``nif.sign``");
 
 	// Can we have an interface member not shared?
 	interface HiddingStuff

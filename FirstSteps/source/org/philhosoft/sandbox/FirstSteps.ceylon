@@ -121,8 +121,9 @@ class FirstSteps()
 
 		title("List of strings (array)");
 		List<String> list = arrayOfSize { size = 5; element = "Yay!"; }; // Named parameters
+		Boolean isArray = list is Array<String>;
 		assert(is Array<String> list); // Narrow down the type to Array, which is mutable
-		list.set(2, "Wee! \{BULLET}");
+		list.set(2, "Wee! \{BULLET} ``isArray``");
 		print(list);
 
 		title("List of strings (linked list)");
@@ -173,7 +174,7 @@ class FirstSteps()
 		{
 			print("Loooooping... ``n``");
 		}
-		// Can be explicit on type
+		// Can be explicit on type and in reversed order
 		for (Integer n in 45..a)
 		{
 			print("Unloooping... ``n``");
@@ -182,6 +183,10 @@ class FirstSteps()
 		else
 		{
 			print("Finished the loop without interruption");
+		}
+		for (n in 39:3)
+		{
+			print("Looping again... ``n``");
 		}
 
 		title("for each with index");

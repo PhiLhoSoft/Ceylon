@@ -1,9 +1,9 @@
 import ceylon.language.meta.model { Function }
 
 // Type definitions for generic HTML entities
-// Note that most interfaces here are really interfaces in the Dom model:
+// Note that most interfaces here are really only interfaces in the Dom model:
 // they don't have constructors, so we cannot create them with new.
-// In general, we have to call something like document.createElement() or similar (or get them out of the HTML).
+// In general, we have to call something like document.createElement() or similar, or to get them out of the Dom / HTML.
 
 /*
 Methods of Number / global object. Not sure how to declare them properly. Perhaps attached to document.
@@ -15,6 +15,9 @@ dynamic shared Float parseFloat();
 dynamic shared Integer parseInt();
 */
 
+// Use the I prefix because:
+// 1. We need to distinguish from the Ceylon Number;
+// 2. We can instanciate this interface to create a new JS Number (eg. from a string).
 dynamic INumber //satisfies Number<Float> | Number<Integer>
 {
 	shared formal Float \iEPSILON;
@@ -34,12 +37,13 @@ dynamic INumber //satisfies Number<Float> | Number<Integer>
 	shared formal String toString();
 	shared formal String valueOf();
 }
-/* Cannot use Number as it is a Ceylon class...
+//* Cannot use Number as it is a Ceylon class...
+/** Create a new Number (INumber) from something likely to be a string or an number... */
 INumber newNumber(Anything? v)
 {
-	dynamic { return Number(v); }
+	dynamic { return \iNumber(v); }
 }
-*/
+//*/
 
 dynamic IEvent
 {

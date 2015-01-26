@@ -34,7 +34,7 @@ shared void updateTime(dynamic eventSource)
 		element.innerHTML = "Updated time is ``fetchDate()``";
 
 		// Call a pure JavaScript function
-		dynamic data = dynamic [ mandatory = "Hello, World!"; \ivalue = 42; ];
+		dynamic data = dynamic [ mandatory = "Hello, World!"; \ivalue = newNumber("42"); ];
 		exposed("Information from Ceylon", data);
 	}
 }
