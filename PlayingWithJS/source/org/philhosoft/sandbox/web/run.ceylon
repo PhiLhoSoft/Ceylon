@@ -1,6 +1,7 @@
 // Based on code from https://github.com/sgalles/ceylon-in-web-browser
 // which is based on http://ceylon-lang.org/blog/2013/02/26/ceylon-in-the-browser/
 // Thanks to them!
+import org.philhosoft.js.interfaces { ... }
 
 String id_information = "information";
 String id_date_information = "date-information";
@@ -14,6 +15,7 @@ shared void run()
 		dynamic element = document.getElementById(id_information);
 		element.innerHTML = buildInformation();
 	}
+	HTMLCanvasElement canvas;
 }
 
 "Build information to be displayed"

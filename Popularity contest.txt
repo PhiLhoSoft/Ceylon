@@ -61,7 +61,8 @@ Also note that `Float` is a class on its own, with methods. It is optimized to t
 
     Float[]
 
-Type of a sequence of float values which can be empty. It is a shortcut for `Sequential<Float>` and can be written `[Float*]`, similar to the stream / iterable annotation. The difference is that a sequential can be indexed with the `[i]` notation, like an array. For the record, a `Sequence<T>` (or `[T+]`) is a sequential that cannot be empty.
+Type of a sequence of float values which can be empty. It is a shortcut for `Sequential<Float>` and can be written `[Float*]`, similar to the stream / iterable annotation. The difference is that a sequential can be indexed with the `[i]` notation, like an array. For the record, a `Sequence<T>` (or `[T+]`) is a sequential that cannot be empty. An empty sequential has the type `Empty` and is noted `[]`, of course.<br>
+Note that `seq[i]` where `seq` is a `Float[]` is of type `Float?` ie. the result can be `null`, if the index is out of the bounds.
 
 
 **Length 8**
@@ -114,9 +115,9 @@ Ceylon doesn't support to define arbitrary operators (unlike Scala, where users 
 
     C<out T>(T t)
 
-Declaration-site variance: the class `C` (the `class` keyword has been omitted for brevity) declares, in its definition, its type parameter `T` to be _covariant_, so `C<Car>` is a subtype of `C<Vehicle>` if `Car` is a subtype of `Vehicle`.<br>
+Declaration-site variance: the class `C` (the `class` keyword and the class body have been omitted for brevity) declares, in its definition, its type parameter `T` to be _covariant_, so `C<Car>` is a subtype of `C<Vehicle>` if `Car` is a subtype of `Vehicle`.<br>
 Collection interfaces (immutable by default), like `List` or `Set` are declared covariants.<br>
-Mutable collections must satisfy an interface with a _contravariant_ declaration, defining methods taking the given class or any supertype of it: a mutable list of `Vehicle` must accept adding `Car`s.<br>
+Mutable collections must satisfy an additional interface with a _contravariant_ declaration (`<out T>`), defining methods accepting the given class or any supertype of it: a mutable list of `Vehicle` must accept adding `Car`s.<br>
 Java is using use-site variance, like `List<? extends Car>`, defined on each `List` declaration. It is a bit more flexible but puts the burden on the users of the class, so is more cumbersome.<br>
 Since version 1.1, Ceylon also support use-site variance for Java interoperability reasons, but promotes declaration-site variance as the preferred method.<br>
 Also note the parameter list of the class: it defines both the parameters of the constructor of the class, and the corresponding fields, in the same shot! No need for these cumbersome `this.t = t;`...
@@ -127,10 +128,41 @@ Also note the parameter list of the class: it defines both the parameters of the
     for(n in 0..5)
 
 Ceylon doesn't have the classical C-like numerical `for` loop. Instead, it supports range definitions, and allows to iterate on them.<br>
-Here, `n` (whose type, `Integer`, is inferred) will go from 0 to 5, included. We could have written `0:6` instead (start, number of items). A range like `5..0` allows count-downs.
+Here, `n` (whose type, `Integer`, is inferred) will go from 0 to 5, included. We could have written `0:6` instead (start, number of items). A range like `5..0` allows count-downs.<br>
+These notations are just syntax sugar for declaring instances of the `Range<T>` class. We can have ranges of numbers, characters or any other type `T` satisfying the `Enumerable` interface.
 
 
+**Length 15**
 
+    return["",0.0];
+
+Return statement in a function. Here, the type of the return value is `[ String, Float ]`. That's a tuple, of type `Tuple`.<br>
+A tuple is linked list (therefore a `Sequence`) which captures the static type of each individual element in the list.<br>
+We can then access safely each element by its index: `Float v = tuple[1];`; the compiler knows the size of the tuple and the type of each entry.<br>
+Tuples are a practical / compact mean to return several values from a function, where in Java we must create a _Pojo_ (simple, often internal, class with just fields) for this.<br>
+Side note: Ceylon doesn't accept abbreviated, unreadable (IMHO) shortcuts for floats: neither `0.` nor `.0` are accepted, we must write `0.0`.
+
+
+**Length 16**
+
+    shared T v=T(1);
+
+A variable or attribute of a class (field in Java vocabulary) declaration. The variable is immutable (the default) and has a visibility annotation. Unlike Java fields, attributes (and variables) don't have an implicit default value  so they must be assigned at the declaration site (or must be, for attributes, in the parameter list of the class).<br>
+Note that `T(1)` creates a new instance of T with one parameter. Unlike Java, we don't need the `new` keyword.<br>
+`shared` is an annotation, not a keyword. Declarations are private by default, visible only in the code unit where they are declared: the class they belong to, or the source file where they are declared, if they are top-level (global to this file).<br>
+`shared` extends the visibility to the parent: a shared declaration in a class is visible in the class enclosing this class, if any, or otherwise in the whole source file containing the class. If a top-level declaration is shared, it is visible by other classes in the same package. If the package is shared, it is visible (and its shared declarations) by other packages in the same module.
+Works like Russian puppets...<br>
+We introduced two concepts: packages are like in Java, folders in a folder hierarchy where the path defines a namespace / visibility unit. They allow to organize code in logical groups. Unlike Java, we _must_ declare packages in a special file named `package.ceylon` in the package they belong to. That's where we declare if a package is shared (or not, by default). On the other hand, we don't have to declare the package on each file of the folder...<br>
+Modules are groups of packages, also declared in their own file (`module.ceylon`) at the root of the package hierarchy.
+They must declare a version number, and must import the modules (with their version number) used in code belonging to this module.
+
+
+**Length 17**
+
+    assert(exists x);
+
+Like in Java, `assert`s throw an exception if their expression is false. But unlike Java, the compiler knows that after the `assert` statement, the condition is true. Here, the expression checks if `x`, of type `T?` (remember: that's `T | Null` ie. either `T` or `Null`), exists, ie. is not `null`. So the compiler accepts to use `x.foo` after the `assert` in the same block, because it known it isn't null.<br>
+`exists` can be used in a `if` too, if that's unsure. `assert` is used if the programmer knows for sure (except programming error!) that a variable initially null has been set to a non-null value at this point in the code. So `assert` is used here as a helper of the type checker of the compiler which hasn't flow analysis...
 
 
 

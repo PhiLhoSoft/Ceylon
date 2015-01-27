@@ -1,89 +1,25 @@
 import ceylon.language.meta.model { Function }
 
-// Type definitions for generic HTML entities
-// Note that most interfaces here are really only interfaces in the Dom model:
-// they don't have constructors, so we cannot create them with new.
-// In general, we have to call something like document.createElement() or similar, or to get them out of the Dom / HTML.
 
-/*
-Methods of Number / global object. Not sure how to declare them properly. Perhaps attached to document.
-dynamic shared Boolean isNaN();
-dynamic shared Boolean isFinite();
-dynamic shared Boolean isInteger();
-dynamic shared Boolean isSafeInteger();
-dynamic shared Float parseFloat();
-dynamic shared Integer parseInt();
-*/
-
-// Use the I prefix because:
-// 1. We need to distinguish from the Ceylon Number;
-// 2. We can instanciate this interface to create a new JS Number (eg. from a string).
-dynamic INumber //satisfies Number<Float> | Number<Integer>
-{
-	shared formal Float \iEPSILON;
-	shared formal Integer \iMAX_SAFE_INTEGER;
-	shared formal Float \iMAX_VALUE;
-	shared formal Integer \iMIN_SAFE_INTEGER;
-	shared formal Float \iMIN_VALUE;
-	shared formal Float \iNaN;
-	shared formal Float \iNEGATIVE_INFINITY;
-	shared formal Float \iPOSITIVE_INFINITY;
-//	prototype
-	shared formal String toExponential();
-	shared formal String toFixed();
-	shared formal String toLocaleString();
-	shared formal String toPrecision();
-	shared formal Anything toSource();
-	shared formal String toString();
-	shared formal String valueOf();
-}
-//* Cannot use Number as it is a Ceylon class...
-/** Create a new Number (INumber) from something likely to be a string or an number... */
-INumber newNumber(Anything? v)
-{
-	dynamic { return \iNumber(v); }
-}
-//*/
-
-dynamic IEvent
-{
-
-}
-dynamic IEventListener
-{
-
-}
-dynamic IEventTarget
-{
-	"Registers an event handler to a specific event type on the EventTarget."
-	shared formal void addEventListener(String type, IEventListener | Function listener, Boolean useCapture = false);
-
-	"Removes an event listener from the EventTarget."
-	shared formal void removeEventListener(String type, IEventListener listener, Boolean useCapture = false);
-
-	"Dispatches an event to this node in the DOM and returns a Boolean that indicates that at least one handler has not canceled it."
-	shared formal Boolean dispatchEvent(IEvent event);
-}
-
-dynamic INode satisfies IEventTarget
+shared dynamic Node satisfies EventTarget
 {
 	""
 	shared formal String baseURI;
 
 	"Live list."
-	shared formal INodeList childNodes;
+	shared formal NodeList childNodes;
 
 	""
-	shared formal INode? firstChild;
+	shared formal Node? firstChild;
 
 	""
-	shared formal INode? lastChild;
+	shared formal Node? lastChild;
 
 	""
-	shared formal INode? previousSibling;
+	shared formal Node? previousSibling;
 
 	""
-	shared formal INode? nextSibling;
+	shared formal Node? nextSibling;
 
 	// These two should be defined in Element, but some browsers still locate them here
 
@@ -108,41 +44,41 @@ dynamic INode satisfies IEventTarget
 
 
 	""
-	shared formal IDocument? ownerDocument;
+	shared formal Document? ownerDocument;
 
 	""
-	shared formal INode? parentNode;
+	shared formal Node? parentNode;
 
 	""
-	shared formal IElement? parentElement;
+	shared formal Element? parentElement;
 
 
 	""
 	shared formal Boolean hasChildNodes();
 
 	""
-	shared formal INode appendChild(INode newChild);
+	shared formal Node appendChild(Node newChild);
 
 	""
-	shared formal INode removeChild(INode oldChild);
+	shared formal Node removeChild(Node oldChild);
 
 	""
-	shared formal INode replaceChild(INode newChild, INode oldChild);
+	shared formal Node replaceChild(Node newChild, Node oldChild);
 
 	""
-	shared formal INode insertBefore(INode newChild, INode? referenceChild = null);
+	shared formal Node insertBefore(Node newChild, Node? referenceChild = null);
 
 	""
-	shared formal INode cloneNode(Boolean deep = false);
+	shared formal Node cloneNode(Boolean deep = false);
 
 	""
-	shared formal Integer compareDocumentPosition(INode node);
+	shared formal Integer compareDocumentPosition(Node node);
 
 	""
-	shared formal Boolean contains(INode node);
+	shared formal Boolean contains(Node node);
 
 	""
-	shared formal Boolean isEqualNode(INode node);
+	shared formal Boolean isEqualNode(Node node);
 
 	""
 	shared formal Boolean isDefaultNamespace(String namespaceURI);
@@ -158,48 +94,22 @@ dynamic INode satisfies IEventTarget
 }
 
 "INodeList can be live (eg. from INode.childNodes) or static (from document.querySelectorAll for example)"
-dynamic INodeList
+shared dynamic NodeList
 {
 	shared formal Integer length;
-	shared formal INode? item(Integer index);
+	shared formal Node? item(Integer index);
 	// Perhaps add the [] accessor
 }
 
-dynamic IHTMLCollection
+shared dynamic HTMLCollection
 {
 	shared formal Integer length;
 	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection some browsers can return a NodeList or HTMLCollection if id isn't unique
-	shared formal IElement? item(Integer index);
-	shared formal IElement? namedItem(String name);
+	shared formal Element? item(Integer index);
+	shared formal Element? namedItem(String name);
 }
 
-dynamic IClientRect
-{
-	"Y-coordinate, relative to the viewport origin, of the top of the rectangle box."
-	shared formal Float top;
-
-	"X-coordinate, relative to the viewport origin, of the right of the rectangle box."
-	shared formal Float right;
-
-	"Y-coordinate, relative to the viewport origin, of the bottom of the rectangle box."
-	shared formal Float bottom;
-
-	"X-coordinate, relative to the viewport origin, of the left of the rectangle box."
-	shared formal Float left;
-
-	"Width of the rectangle box (This is identical to right minus left)."
-	shared formal Float width;
-
-	"Height of the rectangle box (This is identical to bottom minus top)."
-	shared formal Float height;
-}
-dynamic IClientRectList
-{
-	shared formal Integer length;
-	shared formal IClientRect? item(Integer index);
-}
-
-dynamic IDOMImplementation
+shared dynamic DOMImplementation
 {
 
 }
@@ -210,19 +120,19 @@ dynamic IDOMImplementation
  (the DOM tree, including elements such as &lt;body> and &lt;table>)
  and provides functionality which is global to the document
  (such as obtaining the page's URL and creating new elements in the document)."
-dynamic IDocument satisfies INode
+shared dynamic Document satisfies Node
 {
 	"Document Type Definition (DTD) of the current document."
 	shared formal String doctype;
 
 	"Element that is a direct child of the document. For HTML documents, this is normally the HTML element."
-	shared formal IElement documentElement;
+	shared formal Element documentElement;
 
 	"URL of the Document."
 	shared formal String documentURI;
 
 	"DOM implementation associated with the current document."
-	shared formal IDOMImplementation implementation;
+	shared formal DOMImplementation implementation;
 
 	"Name of the style sheet set that was last enabled.
 	 Has the value null until the style sheet is changed by setting the value of selectedStyleSheetSet."
@@ -241,7 +151,7 @@ dynamic IDocument satisfies INode
  Specific behaviors are described in interfaces which inherit from Element but add additional functionality.
  For example, the HTMLElement interface is the base interface for HTML elements,
  while the SVGElement interface is the basis for all SVG elements."
-dynamic IElement satisfies INode//, INodeSelector, IElementTraversal
+shared dynamic Element satisfies Node//, NodeSelector, ElementTraversal
 {
 	"Id of the element."
 	shared formal variable String id;
@@ -316,27 +226,27 @@ dynamic IElement satisfies INode//, INodeSelector, IElementTraversal
 
 
 	"Returns a live HTMLCollection containing all descendant elements, of a particular tag name, from the current element."
-	shared formal INodeList getElementsByTagName(String name);
+	shared formal NodeList getElementsByTagName(String name);
 
 	"Returns a live HTMLCollection containing all descendant elements, of a particular tag name and namespace, from the current element."
-	shared formal INodeList getElementsByTagNameNS(String namespaceURI, String localName);
+	shared formal NodeList getElementsByTagNameNS(String namespaceURI, String localName);
 
 	"Returns a live HTMLCollection that contains all descendant of the current element that posses the list of classes given in parameter."
-	shared formal INodeList getElementsByClassName(String className);
+	shared formal NodeList getElementsByClassName(String className);
 
 
 	"Returns a text rectangle object that encloses a group of text rectangles."
-	shared formal IClientRect getBoundingClientRect();
+	shared formal ClientRect getBoundingClientRect();
 
 	"Returns a collection of rectangles that indicate the bounding rectangles for each box in a client."
-	shared formal IClientRectList getClientRects();
+	shared formal ClientRectList getClientRects();
 
 
 	"Returns the first element that is a descendant of the element on which it is invoked that matches the specified group of selectors."
-	shared formal INode? querySelector(String selectors);
+	shared formal Node? querySelector(String selectors);
 
 	"Returns a non-live NodeList of all elements descended from the element on which it is invoked that match the specified group of CSS selectors."
-	shared formal INodeList querySelectorAll(String selectors);
+	shared formal NodeList querySelectorAll(String selectors);
 
 
 	"Asynchronously asks the browser to make the element full-screen."
@@ -359,7 +269,7 @@ dynamic IElement satisfies INode//, INodeSelector, IElementTraversal
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
 "Represents any HTML element. Some elements directly implement this interface, others implement it via an interface that inherits it."
-dynamic IHTMLElement satisfies IElement, IGlobalEventHandlers
+shared dynamic HTMLElement satisfies Element, GlobalEventHandlers
 {
 	"Text that appears in a popup box when mouse is over the element."
 	shared formal variable String title;
@@ -372,7 +282,7 @@ dynamic IHTMLElement satisfies IElement, IGlobalEventHandlers
 	shared formal variable String dir;
 
 	"Represents the declarations of an element's style attributes."
-	shared formal variable ICSSStyleDeclaration style;
+	shared formal variable CSSStyleDeclaration style;
 
 	""
 	shared formal variable Boolean disabled;
@@ -390,7 +300,7 @@ dynamic IHTMLElement satisfies IElement, IGlobalEventHandlers
 	shared formal variable Boolean draggable;
 
 	"Reflects the dropzone global attribute and describes the behavior of the element regarding a drop operation."
-	shared formal variable IDOMSettableTokenList dropzone;
+	shared formal variable DOMSettableTokenList dropzone;
 
 	"'true' means the element is editable and 'false' means it isn't."
 	shared formal variable String contentEditable;
@@ -423,7 +333,7 @@ dynamic IHTMLElement satisfies IElement, IGlobalEventHandlers
 	shared formal Float offsetHeight;
 
 	"The element from which all offset calculations are currently computed."
-	shared formal IElement offsetParent;
+	shared formal Element offsetParent;
 
 	"Makes the element the current keyboard focus."
 	shared formal void focus();
@@ -492,33 +402,17 @@ dynamic IHTMLElement satisfies IElement, IGlobalEventHandlers
 */
 }
 
-// https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers
-dynamic IGlobalEventHandlers // No instances
-{
-	shared formal variable Anything()? onabort;
-	shared formal variable Anything()? onblur;
-}
-dynamic WindowEventHandlers // Not an interface, no instances
-{
-	shared formal variable Anything()? onbeforeunload;
-	shared formal variable Anything()? onunload;
-}
-
-dynamic IHTMLBodyElement satisfies IHTMLElement, WindowEventHandlers
+shared dynamic HTMLBodyElement satisfies HTMLElement, WindowEventHandlers
 {
 
 }
 
-dynamic ICSSStyleDeclaration
+shared dynamic CSSStyleDeclaration
 {
 
 }
 
-dynamic IDOMSettableTokenList
-{
-	// To do
-}
-dynamic IBlob
+shared dynamic DOMSettableTokenList
 {
 	// To do
 }

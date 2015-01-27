@@ -1,5 +1,7 @@
 import ceylon.collection { LinkedList, ArrayList }
 
+shared Integer theNumber = 42;
+
 shared void experiments()
 {
 	/* Foo /* And more /* (Nested comments) */ */ Bar */
@@ -9,6 +11,12 @@ shared void experiments()
 	{
 		assert(exists maybe);
 		print(maybe);
+	}
+
+	Anything any = "Anything!";
+	if (is String any)
+	{
+		print(any);
 	}
 
 	variable Integer n = 5;
