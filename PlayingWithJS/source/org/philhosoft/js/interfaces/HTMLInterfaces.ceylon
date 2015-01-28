@@ -98,7 +98,6 @@ shared dynamic NodeList
 {
 	shared formal Integer length;
 	shared formal Node? item(Integer index);
-	// Perhaps add the [] accessor
 }
 
 shared dynamic HTMLCollection
@@ -134,15 +133,21 @@ shared dynamic Document satisfies Node
 	"DOM implementation associated with the current document."
 	shared formal DOMImplementation implementation;
 
-	"Name of the style sheet set that was last enabled.
-	 Has the value null until the style sheet is changed by setting the value of selectedStyleSheetSet."
-	shared formal String? lastStyleSheetSet;
-
 	"Preferred style sheet set as specified by the page author."
-	shared formal String? preferredStyleSheetSet;
+	shared formal String preferredStyleSheetSet;
 
 	"Which style sheet set is currently in use."
-	shared formal String? selectedStyleSheetSet;
+	shared formal variable String? selectedStyleSheetSet;
+
+	"Name of the style sheet set that was last enabled.
+	 Has the value null until the style sheet is changed by setting the value of [[selectedStyleSheetSet]]."
+	shared formal String? lastStyleSheetSet;
+
+	"Returns a list of the style sheet objects on the current document."
+	shared formal String? styleSheets;
+
+	"Returns a list of the style sheet sets available on the document."
+	shared formal String[] styleSheetSets; // Type isn't clear...
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element
@@ -403,11 +408,6 @@ shared dynamic HTMLElement satisfies Element, GlobalEventHandlers
 }
 
 shared dynamic HTMLBodyElement satisfies HTMLElement, WindowEventHandlers
-{
-
-}
-
-shared dynamic CSSStyleDeclaration
 {
 
 }

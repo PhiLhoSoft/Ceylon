@@ -103,7 +103,7 @@ Ceylon has string interpolation: you can embed in a literal string an expression
 
     f=(A p)=>-p;
 
-Assigns to the f variable an anonymous function defined with the short syntax (fat arrow).
+Assigns to the `f` variable an anonymous function defined with the short syntax (fat arrow).
 Functions are first-class citizens in Ceylon, they are just objects that can be assigned, passed as parameter, returned from another function, etc.<br>
 To fit in the length, I omitted the declaration of `f` which can be done earlier, for example: `A(A) f;`<br>
 Here, `f` returns the negation of the `p` parameter which has the type `A`.<br>
@@ -149,20 +149,29 @@ Side note: Ceylon doesn't accept abbreviated, unreadable (IMHO) shortcuts for fl
 
 A variable or attribute of a class (field in Java vocabulary) declaration. The variable is immutable (the default) and has a visibility annotation. Unlike Java fields, attributes (and variables) don't have an implicit default value  so they must be assigned at the declaration site (or must be, for attributes, in the parameter list of the class).<br>
 Note that `T(1)` creates a new instance of T with one parameter. Unlike Java, we don't need the `new` keyword.<br>
-`shared` is an annotation, not a keyword. Declarations are private by default, visible only in the code unit where they are declared: the class they belong to, or the source file where they are declared, if they are top-level (global to this file).<br>
-`shared` extends the visibility to the parent: a shared declaration in a class is visible in the class enclosing this class, if any, or otherwise in the whole source file containing the class. If a top-level declaration is shared, it is visible by other classes in the same package. If the package is shared, it is visible (and its shared declarations) by other packages in the same module.
+`shared` is an annotation, not a keyword. Declarations are private by default, visible only in the code unit where they are declared: the class they belong to, or the package of the file where they are declared, if they are top-level.<br>
+`shared` extends the visibility to the parent: a shared declaration in a class is visible in the class enclosing this class, if any, or otherwise in the whole package containing the class. If a top-level declaration is shared, it is visible to everything that can see the containing package. If the package is shared, it is visible (and its shared declarations) by other packages in the same module, and by code in other modules which import that module.
 Works like Russian puppets...<br>
 We introduced two concepts: packages are like in Java, folders in a folder hierarchy where the path defines a namespace / visibility unit. They allow to organize code in logical groups. Unlike Java, we _must_ declare packages in a special file named `package.ceylon` in the package they belong to. That's where we declare if a package is shared (or not, by default). On the other hand, we don't have to declare the package on each file of the folder...<br>
 Modules are groups of packages, also declared in their own file (`module.ceylon`) at the root of the package hierarchy.
-They must declare a version number, and must import the modules (with their version number) used in code belonging to this module.
+They _must_ declare a version number, and _must_ import the modules (with their version number) used in code belonging to this module. This allows modularity of the code with fine grained management of the required versions.
 
 
 **Length 17**
 
     assert(exists x);
 
-Like in Java, `assert`s throw an exception if their expression is false. But unlike Java, the compiler knows that after the `assert` statement, the condition is true. Here, the expression checks if `x`, of type `T?` (remember: that's `T | Null` ie. either `T` or `Null`), exists, ie. is not `null`. So the compiler accepts to use `x.foo` after the `assert` in the same block, because it known it isn't null.<br>
+Like in Java, `assert` throws an exception if its expression is false. But unlike Java, the compiler knows that after the `assert` statement, the condition is true. Here, the expression checks if `x`, of type `T?` (remember: that's `T | Null` ie. either `T` or `Null`), exists, ie. is not `null`. So the compiler accepts to use `x.foo` after the `assert` in the same block, because it known it isn't null.<br>
 `exists` can be used in a `if` too, if that's unsure. `assert` is used if the programmer knows for sure (except programming error!) that a variable initially null has been set to a non-null value at this point in the code. So `assert` is used here as a helper of the type checker of the compiler which hasn't flow analysis...
+
+
+**Length 13**
+
+    satisfies A&B
+
+**Length 16**
+
+    if(is T v=a.x())
 
 
 
