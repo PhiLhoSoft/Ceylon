@@ -1,3 +1,10 @@
+// This one is custom, abstracting most JS / Dom lists
+shared dynamic JSList<T>
+{
+	shared formal Integer length;
+	shared formal T? item(Integer index);
+}
+
 /*
 Methods of Number / global object. Not sure how to declare them properly. Perhaps attached to document.
 dynamic shared Boolean isNaN();
@@ -37,6 +44,7 @@ JSNumber newNumber(Anything? v)
     dynamic { return \iNumber(v); }
 }
 
+
 shared dynamic ClientRect
 {
     "Y-coordinate, relative to the viewport origin, of the top of the rectangle box."
@@ -58,10 +66,8 @@ shared dynamic ClientRect
     shared formal Float height;
 }
 
-shared dynamic ClientRectList
+shared dynamic ClientRectList satisfies JSList<ClientRect>
 {
-    shared formal Integer length;
-    shared formal ClientRect? item(Integer index);
 }
 
 shared dynamic Event

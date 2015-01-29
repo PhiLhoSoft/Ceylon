@@ -93,18 +93,15 @@ shared dynamic Node satisfies EventTarget
 	shared formal void normalize();
 }
 
+
 "INodeList can be live (eg. from INode.childNodes) or static (from document.querySelectorAll for example)"
-shared dynamic NodeList
+//shared dynamic NodeList satisfies Correspondence<Integer, Node> // Cannot use nodes[i], apparently
+shared dynamic NodeList satisfies JSList<Node>
 {
-	shared formal Integer length;
-	shared formal Node? item(Integer index);
 }
 
-shared dynamic HTMLCollection
+shared dynamic HTMLCollection satisfies JSList<Element>
 {
-	shared formal Integer length;
-	// According to https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection some browsers can return a NodeList or HTMLCollection if id isn't unique
-	shared formal Element? item(Integer index);
 	shared formal Element? namedItem(String name);
 }
 
@@ -133,8 +130,10 @@ shared dynamic Document satisfies Node
 	"DOM implementation associated with the current document."
 	shared formal DOMImplementation implementation;
 
-	"Preferred style sheet set as specified by the page author."
-	shared formal String preferredStyleSheetSet;
+	// Style sheet extension
+
+	"Returns a list of the style sheet objects on the current document."
+	shared formal StyleSheetList styleSheets;
 
 	"Which style sheet set is currently in use."
 	shared formal variable String? selectedStyleSheetSet;
@@ -143,11 +142,14 @@ shared dynamic Document satisfies Node
 	 Has the value null until the style sheet is changed by setting the value of [[selectedStyleSheetSet]]."
 	shared formal String? lastStyleSheetSet;
 
-	"Returns a list of the style sheet objects on the current document."
-	shared formal String? styleSheets;
+	"Preferred style sheet set as specified by the page author."
+	shared formal String? preferredStyleSheetSet;
 
 	"Returns a list of the style sheet sets available on the document."
-	shared formal String[] styleSheetSets; // Type isn't clear...
+	shared formal String[] styleSheetSets;
+
+	""
+	shared formal void enableStyleSheetsForSet(String? name);
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element
