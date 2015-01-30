@@ -91,10 +91,76 @@ shared dynamic EventTarget
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers
+"Groups the event handlers common to several interfaces like [[HTMLElement]], [[Document]], [[Window]], or WorkerGlobalScope for Web Workers.
+ Each of these interfaces can implement more event handlers."
 shared dynamic GlobalEventHandlers // No instances
 {
-    shared formal variable Anything()? onabort;
-    shared formal variable Anything()? onblur;
+	shared formal variable Anything()? onabort;
+	shared formal variable Anything()? onblur;
+	shared formal variable Anything()? onerror;
+	shared formal variable Anything()? onfocus;
+	shared formal variable Anything()? oncancel;
+	shared formal variable Anything()? oncanplay;
+	shared formal variable Anything()? oncanplaythrough;
+	shared formal variable Anything()? onchange;
+	shared formal variable Anything()? onclick;
+	shared formal variable Anything()? onclose;
+	shared formal variable Anything()? oncontextmenu;
+	shared formal variable Anything()? oncuechange;
+	shared formal variable Anything()? ondblclick;
+	shared formal variable Anything()? ondrag;
+	shared formal variable Anything()? ondragend;
+	shared formal variable Anything()? ondragenter;
+	shared formal variable Anything()? ondragexit;
+	shared formal variable Anything()? ondragleave;
+	shared formal variable Anything()? ondragover;
+	shared formal variable Anything()? ondragstart;
+	shared formal variable Anything()? ondrop;
+	shared formal variable Anything()? ondurationchange;
+	shared formal variable Anything()? onemptied;
+	shared formal variable Anything()? onended;
+	shared formal variable Anything()? oninput;
+	shared formal variable Anything()? oninvalid;
+	shared formal variable Anything()? onkeydown;
+	shared formal variable Anything()? onkeypress;
+	shared formal variable Anything()? onkeyup;
+	shared formal variable Anything()? onload;
+	shared formal variable Anything()? onloadeddata;
+	shared formal variable Anything()? onloadedmetadata;
+	shared formal variable Anything()? onloadstart;
+	shared formal variable Anything()? onmousedown;
+	shared formal variable Anything()? onmouseenter;
+	shared formal variable Anything()? onmouseleave;
+	shared formal variable Anything()? onmousemove;
+	shared formal variable Anything()? onmouseout;
+	shared formal variable Anything()? onmouseover;
+	shared formal variable Anything()? onmouseup;
+	shared formal variable Anything()? onmousewheel;
+	shared formal variable Anything()? onpause;
+	shared formal variable Anything()? onplay;
+	shared formal variable Anything()? onplaying;
+	shared formal variable Anything()? onpointerdown;
+	shared formal variable Anything()? onpointermove;
+	shared formal variable Anything()? onpointerup;
+	shared formal variable Anything()? onpointercancel;
+	shared formal variable Anything()? onpointerover;
+	shared formal variable Anything()? onpointerout;
+	shared formal variable Anything()? onpointerenter;
+	shared formal variable Anything()? onpointerleave;
+	shared formal variable Anything()? onprogress;
+	shared formal variable Anything()? onratechange;
+	shared formal variable Anything()? onreset;
+	shared formal variable Anything()? onscroll;
+	shared formal variable Anything()? onseeked;
+	shared formal variable Anything()? onseeking;
+	shared formal variable Anything()? onselect;
+	shared formal variable Anything()? onshow;
+	shared formal variable Anything()? onstalled;
+	shared formal variable Anything()? onsubmit;
+	shared formal variable Anything()? onsuspend;
+	shared formal variable Anything()? ontimeupdate;
+	shared formal variable Anything()? onvolumechange;
+	shared formal variable Anything()? onwaiting;
 }
 shared dynamic WindowEventHandlers // Not an interface, no instances
 {

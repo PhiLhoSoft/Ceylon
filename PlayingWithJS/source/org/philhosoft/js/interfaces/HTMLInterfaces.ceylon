@@ -1,84 +1,107 @@
-import ceylon.language.meta.model { Function }
 
+shared Integer \iELEMENT_NODE = 1;
+deprecated shared Integer \iATTRIBUTE_NODE = 2;
+shared Integer \iTEXT_NODE = 3;
+deprecated shared Integer \iCDATA_SECTION_NODE = 4;
+deprecated shared Integer \iENTITY_REFERENCE_NODE = 5;
+deprecated shared Integer \iENTITY_NODE = 6;
+shared Integer \iPROCESSING_INSTRUCTION_NODE = 7;
+shared Integer \iCOMMENT_NODE = 8;
+shared Integer \iDOCUMENT_NODE = 9;
+shared Integer \iDOCUMENT_TYPE_NODE = 10;
+shared Integer \iDOCUMENT_FRAGMENT_NODE = 11;
+deprecated shared Integer \iNOTATION_NODE = 12;
 
+"See [[Node.compareDocumentPosition]]. Bit set when node and other are not in the same tree."
+shared Integer \iDOCUMENT_POSITION_DISCONNECTED            = $00_0001; // 1
+"See [[Node.compareDocumentPosition]]. Bit set when other is preceding node."
+shared Integer \iDOCUMENT_POSITION_PRECEDING               = $00_0010; // 2
+"See [[Node.compareDocumentPosition]]. Bit set when other is following node."
+shared Integer \iDOCUMENT_POSITION_FOLLOWING               = $00_0100; // 4
+"See [[Node.compareDocumentPosition]]. Bit set when other is an ancestor of node."
+shared Integer \iDOCUMENT_POSITION_CONTAINS                = $00_1000; // 8
+"See [[Node.compareDocumentPosition]]. Bit set when other is a descendant of node."
+shared Integer \iDOCUMENT_POSITION_CONTAINED_BY            = $01_0000; // 16
+"See [[Node.compareDocumentPosition]]."
+shared Integer \iDOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = $10_0000; // 32
+
+"Node is an abstract interface and does not exist as node.
+ It is used by all nodes ([[Document]], DocumentFragment, DocumentType, [[Element]], Text, ProcessingInstruction, and Comment). "
 shared dynamic Node satisfies EventTarget
 {
-	""
+	"Base URL, ie. the protocol, the domain name and the directory structure of the page, that is all until the last '/'."
 	shared formal String baseURI;
 
-	"Live list."
+	"Live list containing all the children of this node.
+	 [[NodeList]] being live means that if the children of the [[Node]] change, the NodeList object is automatically updated."
 	shared formal NodeList childNodes;
 
-	""
+	"First direct child node of the node, or null if the node has no child."
 	shared formal Node? firstChild;
 
-	""
+	"Last direct child node of the node, or null if the node has no child."
 	shared formal Node? lastChild;
 
-	""
+	"Previous node in the tree, or null if there isn't such node."
 	shared formal Node? previousSibling;
 
-	""
+	"Next node in the tree, or null if there isn't such node."
 	shared formal Node? nextSibling;
 
-	// These two should be defined in Element, but some browsers still locate them here
 
-	""
-	shared formal String localName;
-
-	""
-	shared formal String namespaceURI;
-
-
-	""
+	"""Name of the node, like "audio", "#text" or "#document"."""
 	shared formal String nodeName;
 
-	""
-	shared formal variable String? nodeValue;
-
-	""
-	shared formal variable String? textContent;
-
-	""
+	"Type of the node, like [[ELEMENT_NODE]] and similar."
 	shared formal Integer nodeType;
 
+	"Value of the node. null for most nodes, except nodes of type [[TEXT_NODE]] (Text objects), [[COMMENT_NODE]] (Comment objects),
+	 and [[PROCESSING_INSTRUCTION_NODE]] (ProcessingInstruction objects), where the value corresponds to the text data contained in the object."
+	shared formal variable String? nodeValue;
 
-	""
+	"Textual content of an element and all its descendants."
+	shared formal variable String? textContent;
+
+
+	"The Document that this node belongs to. Null if no document is associated with it."
 	shared formal Document? ownerDocument;
 
-	""
+	"Parent node of this node. Null if there is no such node, like if this node is the top of the tree or if it doesn't participate in a tree."
 	shared formal Node? parentNode;
 
-	""
+	"Parent element of this node. Null if the node has no parent, or if that parent is not an [[Element]]."
 	shared formal Element? parentElement;
 
 
-	""
+	"Indicates if the element has any child nodes, or not."
 	shared formal Boolean hasChildNodes();
 
-	""
+	"Insert a [[Node]] as the last child node of this element."
 	shared formal Node appendChild(Node newChild);
 
-	""
+	"Removes a child node from the current element, which must be a child of the current node."
 	shared formal Node removeChild(Node oldChild);
 
-	""
+	"Replaces one child Node of the current one with the second one given in parameter."
 	shared formal Node replaceChild(Node newChild, Node oldChild);
 
-	""
+	"Inserts the first [[Node]] given in a parameter immediately before the second, child of this element, Node."
 	shared formal Node insertBefore(Node newChild, Node? referenceChild = null);
 
-	""
+	"Clone a [[Node]], and optionally, all of its contents. By default, it clones the content of the node."
 	shared formal Node cloneNode(Boolean deep = false);
 
-	""
-	shared formal Integer compareDocumentPosition(Node node);
+	"Returns a bitmask indicating the position of [[other]] relative to this node. See constants [[DOCUMENT_POSITION_DISCONNECTED]] and similar."
+	shared formal Integer compareDocumentPosition(Node other);
 
-	""
-	shared formal Boolean contains(Node node);
+	"Returns true if [[other]] is an inclusive descendant of this node, and false otherwise. "
+	shared formal Boolean contains(Node other);
 
-	""
-	shared formal Boolean isEqualNode(Node node);
+	"Returns whether this node and [[other]] have the same properties. "
+	shared formal Boolean isEqualNode(Node other);
+
+	"Removes empty [[Text]] nodes and concatenates the data of remaining contiguous Text nodes into the first of their nodes. "
+	shared formal void normalize();
 
 	""
 	shared formal Boolean isDefaultNamespace(String namespaceURI);
@@ -88,13 +111,10 @@ shared dynamic Node satisfies EventTarget
 
 	""
 	shared formal String lookupNamespaceURI(String prefix);
-
-	""
-	shared formal void normalize();
 }
 
 
-"INodeList can be live (eg. from INode.childNodes) or static (from document.querySelectorAll for example)"
+"NodeList can be live (eg. from [[Node.childNodes]]) or static (from document.querySelectorAll for example)"
 //shared dynamic NodeList satisfies Correspondence<Integer, Node> // Cannot use nodes[i], apparently
 shared dynamic NodeList satisfies JSList<Node>
 {
@@ -116,13 +136,13 @@ shared dynamic DOMImplementation
  (the DOM tree, including elements such as &lt;body> and &lt;table>)
  and provides functionality which is global to the document
  (such as obtaining the page's URL and creating new elements in the document)."
-shared dynamic Document satisfies Node
+shared dynamic Document satisfies Node, GlobalEventHandlers
 {
 	"Document Type Definition (DTD) of the current document."
-	shared formal String doctype;
+	shared formal String? doctype; // Or DocumentType?
 
 	"Element that is a direct child of the document. For HTML documents, this is normally the HTML element."
-	shared formal Element documentElement;
+	shared formal Element? documentElement;
 
 	"URL of the Document."
 	shared formal String documentURI;
@@ -150,6 +170,11 @@ shared dynamic Document satisfies Node
 
 	""
 	shared formal void enableStyleSheetsForSet(String? name);
+}
+
+shared dynamic Window satisfies GlobalEventHandlers
+{
+
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element
