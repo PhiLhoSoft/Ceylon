@@ -68,25 +68,7 @@ shared void experiments()
 	print("Sign of Integer | Float: ``nif.sign``");
 
 	// Can we have an interface member not shared?
-	interface HiddingStuff
-	{
-		// Variables (and values) must be shared because they *must* be refined (defined, actually).
-		// They cannot be assigned values (no constants in interfaces).
-		shared formal variable Integer c;
-		shared formal String name;
-		// A member can be private and not formal, actually
-		void incr() { c++; }
-		shared Integer counter() { incr(); return c; }
-	}
-	class Stuff() satisfies HiddingStuff
-	{
-		shared actual variable Integer c = 0;
-		shared actual String name = "S-";
-
-		string => name + counter().string;
-	}
-	Stuff s = Stuff();
-	print("``s`` ``s`` ``s`` ``s``");
+	hidingInInterface();
 
 	class ℤℇÅℜ()
 	{
@@ -119,4 +101,93 @@ shared void experiments()
 		}
 	}
 	FlowBased().doStuff();
+
+	hidingInInterface();
+
+	fizzBuzz();
+}
+
+void hidingInInterface()
+{
+	print("## Hiding stuff in an interface ##");
+	interface HiddingStuff
+	{
+		// Variables (and values) must be shared because they *must* be refined (defined, actually).
+		// They cannot be assigned values (no constants in interfaces).
+		shared formal variable Integer c;
+		shared formal String name;
+		// A member can be private and not formal, actually
+		void incr() { c++; }
+		shared Integer counter() { incr(); return c; }
+	}
+	class Stuff() satisfies HiddingStuff
+	{
+		shared actual variable Integer c = 0;
+		shared actual String name = "S-";
+
+		string => name + counter().string;
+	}
+	Stuff s = Stuff();
+	print("``s`` ``s`` ``s`` ``s``");
+}
+
+void fizzBuzz()
+{
+	print("## FizzBuzz 1 ##");
+	Iterable<String> fizzBuzz1(Integer count = 20)
+	{
+		return (1 .. count).map((Integer c) =>
+			15.divides(c) then "FizzBuzz" else
+			(3.divides(c) then "Fizz" else
+			(5.divides(c) then "Buzz" else c.string)));
+	}
+	for (p in fizzBuzz1(50).partition(5)) { print(p); }
+
+	print("## FizzBuzz 2 ##");
+	Iterable<String> fizzBuzz2(Integer count = 20)
+	{
+		return (1 .. count).map(
+			function (Integer c)
+			{
+				value f = 3.divides(c);
+				value b = 5.divides(c);
+				return
+					"``f then "Fizz" else ""``
+					 ``b then "Buzz" else ""``
+					 ``!f && !b then c else ""``"
+					.replace("\n", ""); // Because I break down the string for readability
+				/*
+				return
+				"``f then "Fizz" else ""``\
+				 ``b then "Buzz" else ""``\
+				  ``!f && !b then c else ""``";
+				*/
+			});
+	}
+	for (p in fizzBuzz2(50).partition(5)) { print(p); }
+}
+
+void demeter()
+{
+	class Delegate() satisfies Correspondence<Integer, String>
+	{
+		List<String> list = ArrayList();
+
+		shared actual Boolean defines(Integer key) => list.defines(key);
+		shared actual String? get(Integer key) => list.get(key);
+//		shared actual String? getFromFirst(Integer index) => list.getFromFirst(index);
+//		shared actual Integer? lastIndex => list.lastIndex;
+		shared actual Boolean equals(Object that)
+		{
+			if (is Delegate that)
+			{
+				return list == that.list;
+			}
+			return false;
+		}
+		shared actual Integer hash
+		{
+			return list.hash;
+		}
+	}
 }
