@@ -1,0 +1,41 @@
+# http://stackoverflow.com/questions/2982055/detach-many-subdirectories-into-a-new-separate-git-repository
+# Answer by David Smiley
+# Clone the current repository into the new one
+git clone --no-hardlinks . ../Ceylon-JSTypes
+# Go to it
+cd ../Ceylon-JSTypes
+# Remove everything from the clone, except the folders we want to keep
+git filter-branch --index-filter "git rm --cached -qr -- . && git reset -q $GIT_COMMIT -- \
+PlayingWithJS/source/org/philhosoft/js --prune-empty -- --all
+
+# http://stackoverflow.com/questions/359424/detach-subdirectory-into-separate-git-repository
+# By Simon A. Eugster
+git reflog expire --expire=now --all
+git repack -ad
+git gc --prune=now
+
+# Remove "shadow" branches
+git remote rm origin
+git update-ref -d refs/original/refs/heads/master
+git update-ref -d refs/original/refs/remotes/origin/master
+git reflog expire --expire=now --all
+
+
+git filter-branch --commit-filter '
+        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
+        then
+                GIT_AUTHOR_NAME="Scott Chacon";
+                GIT_AUTHOR_EMAIL="schacon@example.com";
+                git commit-tree "$@";
+        else
+                git commit-tree "$@";
+        fi' HEAD
+
+
+git filter-branch --commit-filter ' \
+    if [ `git log --before="1 months ago" | grep -c "$GIT_COMMIT"` -gt 0 ]; \
+    then \
+        skip_commit "$@"; \
+    else \
+        git commit-tree "$@"; \
+    fi'  HEAD

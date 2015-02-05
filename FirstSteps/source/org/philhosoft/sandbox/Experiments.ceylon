@@ -1,4 +1,5 @@
-import ceylon.collection { LinkedList, ArrayList }
+import ceylon.collection { LinkedList, ArrayList,
+	MutableList }
 
 shared Integer theNumber = 42;
 
@@ -105,6 +106,8 @@ shared void experiments()
 	hidingInInterface();
 
 	fizzBuzz();
+
+	demeter();
 }
 
 void hidingInInterface()
@@ -169,14 +172,21 @@ void fizzBuzz()
 
 void demeter()
 {
-	class Delegate() satisfies Correspondence<Integer, String>
+	print("## Demeter ##");
+	class Delegate() satisfies List<String>//, MutableList<String>
 	{
-		List<String> list = ArrayList();
+		List<String> list = ArrayList<String>();
 
-		shared actual Boolean defines(Integer key) => list.defines(key);
-		shared actual String? get(Integer key) => list.get(key);
 //		shared actual String? getFromFirst(Integer index) => list.getFromFirst(index);
 //		shared actual Integer? lastIndex => list.lastIndex;
+		getFromFirst = list.getFromFirst;
+		lastIndex = list.lastIndex;
+//		size = list.size;
+
+		shared void add(String s) { assert(is MutableList<String> list); list.add(s); }
+		//shared actual Integer size { assert(is MutableList<String> lst = list); return lst.size; }
+		shared actual Integer size { assert(is MutableList<String> list); return list.size; }
+
 		shared actual Boolean equals(Object that)
 		{
 			if (is Delegate that)
@@ -190,4 +200,8 @@ void demeter()
 			return list.hash;
 		}
 	}
+	value d = Delegate();
+	d.add("Foo");
+	d.add("Bar");
+	print("``d.size`` ``d[1] else "null"``");
 }
