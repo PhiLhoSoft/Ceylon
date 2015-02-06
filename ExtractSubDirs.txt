@@ -8,6 +8,17 @@ cd ../Ceylon-JSTypes
 git filter-branch --index-filter "git rm --cached -qr -- . && git reset -q $GIT_COMMIT -- \
 PlayingWithJS/source/org/philhosoft/js --prune-empty -- --all
 
+git clone --no-hardlinks . ../Ceylon-Collections
+cd ../Ceylon-Collections
+git filter-branch --index-filter "git rm --cached -qr -- . && git reset -q $GIT_COMMIT -- \
+Collections --prune-empty -- --all
+
+
+git filter-branch --prune-empty --subdirectory-filter Collections HEAD
+
+git filter-branch --prune-empty --subdirectory-filter PlayingWithJS HEAD
+git filter-branch --index-filter "git rm --cached -qr -- . && git reset -q $GIT_COMMIT -- source/org/philhosoft/js --prune-empty -- --all
+
 # http://stackoverflow.com/questions/359424/detach-subdirectory-into-separate-git-repository
 # By Simon A. Eugster
 git reflog expire --expire=now --all
