@@ -1,0 +1,138 @@
+### Keywords
+
+(abstracts)
+alias	→	\u2190	RIGHTWARDS ARROW
+(assembly)
+assert	¿	\u00BF	INVERTED QUESTION MARK
+assign	←	\u2190	LEFTWARDS ARROW
+break	×	\u00D7	MULTIPLICATION SIGN
+case	¤	\u00A9	CURRENCY SIGN
+catch	¢	\u00A2	CENT SIGN
+class	©	\u00A9	COPYRIGHT SIGN
+continue	÷	\u00F7	DIVISION SIGN
+dynamic
+else	»	\u00AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+exists	∃	\u2203	THERE EXISTS
+extends	∋	\u220B	CONTAINS AS MEMBER
+finally	¥	\u00A5	YEN SIGN
+for	∀	\u2200	FOR ALL
+function	ƒ 	\u0083	NO BREAK HERE
+given
+if	«	\u00AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+import
+in
+interface
+is
+let
+module
+(new)
+nonempty	⨳
+object	°	\u00B0	DEGREE SIGN
+of
+out
+outer
+package	¶	\u00B6	PILCROW SIGN
+return	®	\u00AE	REGISTERED SIGN
+satisfies	∈	\u2208	ELEMENT OF
+super	↑	\u2191	UPWARDS ARROW
+switch	§	\u00A7	SECTION SIGN
+then	∴	\u2234	THEREFORE
+this
+throw	∆	\u2206	INCREMENT
+try	£	\u00A3	POUND SIGN
+value	∇	\u2207	NABLA
+void	¬	\u00AC	NOT SIGN
+while	… 	\u0085	NEXT LINE (NEL)
+
+	µ	\u00B5	MICRO SIGN
+
+	†	\u0086	START OF SELECTED AREA
+	‡	\u0087	END OF SELECTED AREA
+
+### Annotations
+
+abstract
+actual
+default
+formal
+shared
+variable	±	\u00B1	PLUS-MINUS SIGN
+
+annotation
+final
+late
+native
+optional
+sealed
+
+also:
+
+by
+deprecated
+doc
+license
+see
+tagged
+throws
+
+### Common Types in ceylon.language
+
+Boolean
+Character
+String
+Integer
+Float
+Byte
+
+Array
+Collection
+List
+Map
+Set
+
+Less used:
+
+Anything
+Basic
+Decimal
+Nothing
+Null
+Number
+Object
+
+Others (already have symbolic notation):
+
+Empty
+Iterable
+Sequence
+Sequential
+Tuple
+
+Objects:
+
+false
+true
+
+Operators (without symbols):
+
+exists
+nonempty
+
+Operators (with symbols):
+
+Callable	(() invoke)
+Category
+Comparable	(<=> (compare), <, >, <=, >=)
+Comparison	(smaller, larger)
+Correspondence	([] (get))
+Ranged	([:] (measure), [..] (span), [...] (spanFrom / spanTo))
+Iterable	(*. (map), *. (compose & spread))
+Range	(.. (span), : (measure))
+Entry	(-> (entry))
+Ordinal	(++ --)
+Summable	(+ (plus))
+Invertible	(- (minus))
+Numeric	(* (times), / (divided))
+Integral	(% (remainder))
+Exponentiable	(^ (power))
+Set	(| (union), & (intersection), ~ (complement))

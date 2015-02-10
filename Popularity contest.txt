@@ -165,6 +165,15 @@ Like in Java, `assert` throws an exception if its expression is false. But unlik
 `exists` can be used in a `if` too, if that's unsure. `assert` is used if the programmer knows for sure (except programming error!) that a variable initially null has been set to a non-null value at this point in the code. So `assert` is used here as a helper of the type checker of the compiler which hasn't flow analysis...
 
 
+**Length 18**
+
+    class C(Float f){}
+
+Declares a class and its constructor and its attributes in the same shot: the class' parameters are those of the constructor of the class, which then doesn't need to be defined explicitly. These parameters become attributes (equivalent to Java's fields), so no need for `this.f = f`, the syntax is streamlined, without boilerplate.<br>
+Note that a class can have only one constructor, because Ceylon doesn't support method overloading. Instead, it has parameters with default values (and therefore optional parameters), named parameters, etc.<br>
+It also implies that the class has an _initializer_ section, containing a mix of declarations, statements and control structures. The initializer is executed every time the class is instantiated and initializes the state of the new instance of the class.
+
+
 **Length 13**
 
     satisfies A&B
