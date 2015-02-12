@@ -1,3 +1,29 @@
+# Symbolic Ceylon
+
+## Purpose
+
+The only purpose of this specification is to be able to use Ceylon in code golf contexts in a competitive manner. :-)
+
+Code golf: to write a program fulfilling a given goal in a minimal number of characters.
+Ceylon is a nice language, but it is verbose, with long keywords and identifiers. I appreciate this in the real world, but it makes it unsuitable for code golf challenges...
+So I had the idea to replace all keywords and common identifiers (annotations, classes coming with the SDK) with Unicode characters.
+This gives much shorter code, even more as spaces are no longer necessary between these words.
+It probably still won't be competitive in front of languages specifically designed for code golf, but it would allow decent placement in the contests.
+
+Choice of characters:
+
+- Obviously, none from the Ascii range; they are (almost?) all used by the language;
+- Avoid using symbols that can be ambiguous: similar between them, or looking like Ascii characters.
+- For keywords and identifiers from ceylon.language, avoid to use real letters (in the Unicode sense), as they can be legally used in Ceylon identifiers. This rule is relaxed for other Ceylon libraries (like collection, etc.).
+- Avoid using rare glyphs unlikely to be in common fonts. They should be displayed in most browsers and text editors (with the proper font(s)). I test with Arial Unicode MS and DejaVu Sans, fonts with good ranges of characters.
+- Limit the number of Unicode blocks (like Byzantine Musical Symbols) used in the encoding. Try to keep consistency of blocks to lexical categories.
+- Try to have significant symbols, with consistency and / or meaning and / or suggestive look.
+
+
+## Mapping
+
+Suggesting tab size of 30.
+
 ### Keywords
 
 (abstracts)
@@ -5,67 +31,63 @@ alias	→	\u2190	RIGHTWARDS ARROW
 (assembly)
 assert	¿	\u00BF	INVERTED QUESTION MARK
 assign	←	\u2190	LEFTWARDS ARROW
-break	×	\u00D7	MULTIPLICATION SIGN
-case	¤	\u00A9	CURRENCY SIGN
+break	⊢	\u22A2	RIGHT TACK
+case	»	\u00AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
 catch	¢	\u00A2	CENT SIGN
 class	©	\u00A9	COPYRIGHT SIGN
-continue	÷	\u00F7	DIVISION SIGN
-dynamic
-else	»	\u00AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+continue	⊣	\u22A3	LEFT TACK
+dynamic	⋙	\u22D9	VERY MUCH GREATER-THAN
+else	⁂	\u2042	ASTERISM
 exists	∃	\u2203	THERE EXISTS
 extends	∋	\u220B	CONTAINS AS MEMBER
 finally	¥	\u00A5	YEN SIGN
 for	∀	\u2200	FOR ALL
-function	ƒ 	\u0083	NO BREAK HERE
-given
-if	«	\u00AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
-import
-in
-interface
-is
-let
-module
+function	↣	\u21A3	RIGHTWARDS ARROW WITH TAIL
+given	↦	\u21A6	RIGHTWARDS ARROW FROM BAR
+if	∵	\u2235	BECAUSE
+import	÷	\u00F7	DIVISION SIGN
+in	⇐	\u21D0	LEFTWARDS DOUBLE ARROW
+interface	§	\u00A7	SECTION SIGN
+is	†	\u2020	DAGGER
+let	‣	\u2023	TRIANGULAR BULLET
+module	⊳	\u22B3	CONTAINS AS NORMAL SUBGROUP
 (new)
-nonempty	⨳
-object	°	\u00B0	DEGREE SIGN
-of
-out
-outer
-package	¶	\u00B6	PILCROW SIGN
+nonempty	‡	\u2021	DOUBLE DAGGER
+object	¶	\u00B6	PILCROW SIGN
+of	°	\u00B0	DEGREE SIGN
+out	⇒	\u21D2	RIGHTWARDS DOUBLE ARROW
+outer	⋒	\u22D2	DOUBLE INTERSECTION
+package	⊲	\u22B2	NORMAL SUBGROUP OF
 return	®	\u00AE	REGISTERED SIGN
 satisfies	∈	\u2208	ELEMENT OF
-super	↑	\u2191	UPWARDS ARROW
-switch	§	\u00A7	SECTION SIGN
+super	⋔	\u22D4	PITCHFORK
+switch	«	\u00AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
 then	∴	\u2234	THEREFORE
-this
-throw	∆	\u2206	INCREMENT
+this	※	\u203B	REFERENCE MARK
+throw	↑	\u2191	UPWARDS ARROW
 try	£	\u00A3	POUND SIGN
 value	∇	\u2207	NABLA
-void	¬	\u00AC	NOT SIGN
-while	… 	\u0085	NEXT LINE (NEL)
-
-	µ	\u00B5	MICRO SIGN
-
-	†	\u0086	START OF SELECTED AREA
-	‡	\u0087	END OF SELECTED AREA
+void	µ	\u00B5	MICRO SIGN
+while	¤	\u00A9	CURRENCY SIGN
 
 ### Annotations
 
-abstract
-actual
-default
-formal
-shared
-variable	±	\u00B1	PLUS-MINUS SIGN
+abstract	⊼	\u22BC	NAND
+actual	∧	\u2227	LOGICAL AND
+default	∂	\u2202	PARTIAL DIFFERENTIAL
+final	≋	\u224B	TRIPLE TILDE
+formal	∫	\u222B	INTEGRAL
+late	∟	\u221F	RIGHT ANGLE
+sealed	∑	\u2211	N-ARY SUMMATION
+shared	⋈	\u22C8	BOWTIE
+variable	∆	\u2206	INCREMENT
 
-annotation
-final
-late
-native
-optional
-sealed
 
-also:
+annotation	∰	\u2230	VOLUME INTEGRAL
+native	∯	\u222F	SURFACE INTEGRAL
+optional	∮	\u222E	CONTOUR INTEGRAL
+
+#### also (doc annotations)
 
 by
 deprecated
@@ -77,62 +99,200 @@ throws
 
 ### Common Types in ceylon.language
 
-Boolean
-Character
-String
-Integer
-Float
-Byte
+Boolean	Ⓑ	\u24B7	CIRCLED LATIN CAPITAL LETTER B
+Byte	Ⓞ	\u24C4	CIRCLED LATIN CAPITAL LETTER O (o = octet = byte...)
+Character	Ⓒ	\u24B8	CIRCLED LATIN CAPITAL LETTER C
+Float	Ⓕ	\u24BB	CIRCLED LATIN CAPITAL LETTER F
+Integer	Ⓘ	\u24BE	CIRCLED LATIN CAPITAL LETTER I
+Number	Ⓝ	\u24C3	CIRCLED LATIN CAPITAL LETTER N
+String	Ⓢ	\u24C8	CIRCLED LATIN CAPITAL LETTER S
 
-Array
-Collection
-List
-Map
+#### also, in ceylon.math
+
+Decimal	Ⓓ	\u24B9	CIRCLED LATIN CAPITAL LETTER D
+Whole	Ⓦ	\u24CC	CIRCLED LATIN CAPITAL LETTER W
+
+#### Other types
+
+Anything	∞	\u221E	INFINITY
+Object	ⓞ	\u24DE	CIRCLED LATIN SMALL LETTER O
+Basic	ⓑ	\u24D1	CIRCLED LATIN SMALL LETTER B
+Nothing	∄	\u2204	THERE DOES NOT EXIST
+Throwable	↟	\u219F	UPWARDS TWO HEADED ARROW
+Exception	⇈	\u21C8	UPWARDS PAIRED ARROWS
+
+Array	ⓐ	\u24D0	CIRCLED LATIN SMALL LETTER A
+Collection	ⓒ	\u24D2	CIRCLED LATIN SMALL LETTER C
+List	ⓛ	\u24DB	CIRCLED LATIN SMALL LETTER L
+Map	ⓜ	\u24DC	CIRCLED LATIN SMALL LETTER M
+Null	•	\u2022	BULLET
+Range	ⓡ	\u24E1	CIRCLED LATIN SMALL LETTER R
+Set	ⓢ	\u24E2	CIRCLED LATIN SMALL LETTER S
+
+Empty	ⓔ	\u24D4	CIRCLED LATIN SMALL LETTER E
+Singleton
+
+Category	▣	\u25A3	WHITE SQUARE CONTAINING BLACK SMALL SQUARE
+Iterable	◍	\u25CD	CIRCLE WITH VERTICAL FILL
+Iterator	◌	\u25CC	DOTTED CIRCLE
+Sequence	◉	\u25C9	FISHEYE
+Sequential	◎	\u25CE	BULLSEYE
+Tuple	◈	\u25C8	WHITE DIAMOND CONTAINING BLACK SMALL DIAMOND
+
+Measure
+Span
+
+#### Operators (with symbols)
+
+Summable	⊞	\u229E	SQUARED PLUS
+    + (plus)	∹	\u2239	EXCESS
+Invertible	⊟	\u229F	SQUARED MINUS
+    - (minus)	∸	\u2238	DOT MINUS
+Numeric	⊠	\u22A0	SQUARED TIMES
+    * (times)	∺	\u223A	GEOMETRIC PROPORTION
+    / (divided)	∻	\u223B	HOMOTHETIC
+Scalable	⊗	\u2297	CIRCLED TIMES
+    ** (scale)	≙	\u2259	ESTIMATES
+Integral	⊘	\u2298	CIRCLED DIVISION SLASH
+    % (remainder)	≜	\u225C	DELTA EQUAL TO
+Exponentiable	⊛	\u229B	CIRCLED ASTERISK OPERATOR
+    ^ (power)	≛	\u225B	STAR EQUALS
+Ordinal	⊕	\u2295	CIRCLED PLUS
+    ++ (sucessor)	↷	\u21B7	CLOCKWISE TOP SEMICIRCLE ARROW
+    -- (predecessor)	↶	\u21B6	ANTICLOCKWISE TOP SEMICIRCLE ARROW
+Callable	⊚	\u229A	CIRCLED RING OPERATOR
+    () (invoke)	≗	\u2257	RING EQUAL TO
+Correspondence	≎	\u224E	GEOMETRICALLY EQUIVALENT TO
+    [i] (get)	≏	\u224F	DIFFERENCE BETWEEN
+Ranged	⊡	\u22A1	SQUARED DOT OPERATOR
+    [f:l] (measure)	↸	\u21B8	NORTH WEST ARROW TO LONG BAR
+    [f..t] (span)	↹	\u21B9	LEFTWARDS ARROW TO BAR OVER RIGHTWARDS ARROW TO BAR
+    [f...] (spanFrom)	⇤	\u21E4	LEFTWARDS ARROW TO BAR
+    [...t] (spanTo)	⇥	\u21E5	RIGHTWARDS ARROW TO BAR
+Comparable	⊜	\u229C	CIRCLED EQUALS
+    <=> (compare)	≶	\u2276	LESS-THAN OR GREATER-THAN
+    <, >, <=, >=
+Comparison	⊙	\u2299	CIRCLED DOT OPERATOR
+    larger	≩	\u2269	GREATERR-THAN BUT NOT EQUAL TO
+    smaller	≨	\u2268	LESS-THAN BUT NOT EQUAL TO
+    equal	≡	\u2261	IDENTICAL TO
+Entry	►	\u25BA	BLACK RIGHT-POINTING POINTER
+    -> (entry)	⇨	\u21E8	RIGHTWARDS WHITE ARROW
+Enumerable	⋮	\u22EE	VERTICAL ELLIPSIS
+Range
+    .. (span)	see above
+    : (measure)	see above
 Set
+    | (union)	∏	\u220F	N-ARY PRODUCT
+    & (intersection)	∐	\u2210	N-ARY COPRODUCT
+    ~ (complement)	¬	\u00AC	NOT SIGN
 
-Less used:
+#### Objects
 
-Anything
-Basic
-Decimal
-Nothing
-Null
-Number
-Object
+empty	[ ]	(already has a shortcut...)
+false	ⓕ	\u24D5	CIRCLED LATIN SMALL LETTER F
+nothing	∅	\u2205	EMPTY SET
+null	ⓝ	\u24DD	CIRCLED LATIN SMALL LETTER N
+true	ⓣ	\u24E3	CIRCLED LATIN SMALL LETTER T
 
-Others (already have symbolic notation):
 
-Empty
-Iterable
-Sequence
-Sequential
-Tuple
+### Common Types in ceylon.collection
 
-Objects:
+ArrayList	ⓐⓛ
+HashMap	Φⓜ
+HashSet	Φⓢ
+IdentityMap	φⓜ
+IdentitySet	φⓢ
+LinkedList	Ⓛⓛ	\u24C1	CIRCLED LATIN CAPITAL LETTER L
+MutableList	Ωⓛ
+MutableMap	Ωⓜ
+MutableSet	Ωⓢ
+PriorityQueue	Ⓟⓠ	\u24C5	CIRCLED LATIN CAPITAL LETTER P
+Queue	ⓠ	\u24E0	CIRCLED LATIN SMALL LETTER Q
+SingletonMap	ψⓜ
+SingletonSet	ψⓢ
+SortedMap	σⓜ
+SortedSet	σⓢ
+Stack	ⓚ	\u24DA	CIRCLED LATIN SMALL LETTER K
+StringBuilder	ΩⓈ	(mutable string...)
+TreeMap	θⓜ
+TreeSet	θⓢ
+UnmodifiableList	ωⓛ
+UnmodifiableMap	ωⓜ
+UnmodifiableSet	ωⓢ
 
-false
-true
+Hash	Φ	\u03A6	GREEK CAPITAL LETTER PHI
+Identity	φ	\u03C6	GREEK SMALL LETTER PHI
+Singleton	ψ	\u03C8	GREEK SMALL LETTER PSI
+Sorted	σ	\u03C3	GREEK SMALL LETTER SIGMA
+Unmodifiable	ω	\u03C9	GREEK SMALL LETTER OMEGA
+Mutable	Ω	\u03A9	GREEK CAPITAL LETTER OMEGA
+Tree	θ	\u03B8	GREEK SMALL LETTER THETA
 
-Operators (without symbols):
 
-exists
-nonempty
+### Common types, functions, attributes, methods in ceylon.language and  ceylon.collection
 
-Operators (with symbols):
+#### Top-level
 
-Callable	(() invoke)
-Category
-Comparable	(<=> (compare), <, >, <=, >=)
-Comparison	(smaller, larger)
-Correspondence	([] (get))
-Ranged	([:] (measure), [..] (span), [...] (spanFrom / spanTo))
-Iterable	(*. (map), *. (compose & spread))
-Range	(.. (span), : (measure))
-Entry	(-> (entry))
-Ordinal	(++ --)
-Summable	(+ (plus))
-Invertible	(- (minus))
-Numeric	(* (times), / (divided))
-Integral	(% (remainder))
-Exponentiable	(^ (power))
-Set	(| (union), & (intersection), ~ (complement))
+arrayOfSize
+print	Φ	\u03A6	GREEK CAPITAL LETTER PHI
+parseBoolean	◐	\u25D0	CIRCLE WITH LEFT HALF BLACK
+parseFloat	◑	\u25D1	CIRCLE WITH RIGHT HALF BLACK
+parseInteger	◒	\u25D2	CIRCLE WITH LOWER HALF BLACK
+parseDecimal	◓	\u25D3	CIRCLE WITH UPPER HALF BLACK
+parseWhole	◔	\u25D4	CIRCLE WITH UPPER RIGHT QUADRANT BLACK
+parsePath	◖	\u25D6	LEFT HALF BLACK CIRCLE
+parseURI	◗	\u25D7	RIGHT HALF BLACK CIRCLE
+
+#### Attributes and methods
+
+size	±	\u00B1	PLUS-MINUS SIGN
+empty	⌇	\u2307	WAVY LINE
+infinite	∞	\u221E	INFINITY
+undefined	∿	\u223F	SINE WAVE
+uppercased	⋏	\u22CF	CURLY LOGICAL AND
+lowercased	⋎	\u22CE	CURLY LOGICAL OR
+normalized
+magnitude
+
+get
+pop
+add
+set
+put
+offer
+push
+sort
+replace
+replaceFirst
+split
+startsWith
+endsWith
+contains
+
+
+### Common types, functions, attributes, methods in ceylon.io and ceylon.file
+
+Nil
+File
+Reader
+Overwriter
+Directory
+
+home
+
+resource
+
+childPath
+createFile
+readLine
+writeLine
+childDirectories
+
+### ceylon.math
+
+ceiling
+floor
+random
+sin
+cos
