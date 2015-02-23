@@ -9,6 +9,7 @@ shared void run()
 	firstSteps.declaringTypes();
 	firstSteps.accessors();
 	firstSteps.namedArguments();
+	firstSteps.usingIO();
 }
 
 void stepTitle(String title)

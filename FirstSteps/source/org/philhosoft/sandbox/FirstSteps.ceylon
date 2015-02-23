@@ -1,4 +1,7 @@
 import ceylon.collection { HashSet, HashMap, LinkedList }
+import ceylon.io { OpenFile, newOpenFile }
+import ceylon.io.buffer { ByteBuffer, newByteBuffer }
+import ceylon.file { File, Path, Nil, parsePath }
 
 // See Enumerated types. Must be top-level...
 // Idea taken from the Java enum tutorial.
@@ -118,6 +121,7 @@ class FirstSteps()
 		print("Filter: " + sequence.filter((String name) => name.startsWith("H")).string);
 		print("Empty sequential: ``sequential.empty``");
 		print("Collect: " + sequenceOfEntries.collect((String->String element) => element.key == "seven" then "Foo" else element.item).string);
+		print("Sort: " + sequenceOfEntries.collect((String->String element) => element.item).sort(byIncreasing(identity<String>)).string);
 
 		title("List of strings (array)");
 		List<String> list = arrayOfSize { size = 5; element = "Yay!"; }; // Named parameters
@@ -518,5 +522,64 @@ class FirstSteps()
 		doStuff(0, "zero", {});
 		doStuff(5, "five", [ "1", "2", "3", "4", "5" ]);
 		doStuff { name = "three"; items = [ "3", "4", "5" ]; number = 314; };
+	}
+
+	shared void usingIO()
+	{
+		stepTitle("Using I/O");
+
+		"Reads all lines from a file reader and returns them as a string."
+		String readAllLines(File.Reader reader)
+		{
+			StringBuilder result = StringBuilder();
+
+			while (exists line = reader.readLine())
+			{
+				result.append(line).append("\n");
+			}
+
+			return result.string;
+		}
+
+		Path path = parsePath(".");
+		print(path.absolutePath.string);
+		Path projectPath = parsePath("./.project");
+		value inputResource = projectPath.resource;
+		variable value lines = "";
+		if (is File inputResource)
+		{
+			try (reader = inputResource.Reader())
+			{
+				lines = readAllLines(reader);
+			}
+		}
+		Path outputPath = parsePath("./output.txt");
+		if (is Nil resource = outputPath.resource)
+		{
+			resource.createFile();
+		}
+		if (is File outputResource = outputPath.resource)
+		{
+			try (writer = outputResource.Overwriter())
+			{
+				writer.writeLine(lines.uppercased);
+			}
+		}
+
+		OpenFile openFile = newOpenFile(outputPath.resource);
+		ByteBuffer buffer = newByteBuffer(4096);
+		Integer readNb = openFile.read(buffer);
+		print("Has read ``readNb`` bytes from ``projectPath.absolutePath``");
+		value byteSequence = buffer.sequence();
+		value changedBuffer = newByteBuffer(byteSequence.size);
+		for (byte in byteSequence.reversed)
+		{
+			changedBuffer.putByte(byte);
+		}
+//		openFile.position
+		Integer writeNb = openFile.write(changedBuffer);
+		print("Has written ``writeNb`` bytes to ``outputPath.absolutePath``");
+		buffer.flip();
+		openFile.close();
 	}
 }
