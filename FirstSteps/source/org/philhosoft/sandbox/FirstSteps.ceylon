@@ -1,7 +1,8 @@
 import ceylon.collection { HashSet, HashMap, LinkedList }
 import ceylon.io { OpenFile, newOpenFile }
 import ceylon.io.buffer { ByteBuffer, newByteBuffer }
-import ceylon.file { File, Path, Nil, parsePath }
+import ceylon.file { File, Path, Nil, parsePath,
+	createFileIfNil }
 
 // See Enumerated types. Must be top-level...
 // Idea taken from the Java enum tutorial.
@@ -527,6 +528,7 @@ class FirstSteps()
 	shared void usingIO()
 	{
 		stepTitle("Using I/O");
+		// http://modules.ceylon-lang.org/modules/ceylon.file/1.1.0/doc
 
 		"Reads all lines from a file reader and returns them as a string."
 		String readAllLines(File.Reader reader)
@@ -541,10 +543,13 @@ class FirstSteps()
 			return result.string;
 		}
 
-		Path path = parsePath(".");
-		print(path.absolutePath.string);
-		Path projectPath = parsePath("./.project");
-		value inputResource = projectPath.resource;
+		Path projectPath = parsePath(".");
+		print(projectPath.absolutePath.string);
+
+		Path projectFilePath = projectPath.childPath(".project");
+		Path classFilePath = projectFilePath.siblingPath(".classpath");
+		assert(projectPath == classFilePath.parent);
+		value inputResource = projectFilePath.resource;
 		variable value lines = "";
 		if (is File inputResource)
 		{
@@ -554,13 +559,16 @@ class FirstSteps()
 			}
 		}
 		Path outputPath = parsePath("./output.txt");
-		if (is Nil resource = outputPath.resource)
+		// See below
+		//if (is Nil resource = outputPath.resource)
+		//{
+		//	resource.createFile();
+		//}
+		if (is File | Nil outputResource = outputPath.resource)
 		{
-			resource.createFile();
-		}
-		if (is File outputResource = outputPath.resource)
-		{
-			try (writer = outputResource.Overwriter())
+			value outputFile = createFileIfNil(outputResource);
+
+			try (writer = outputFile.Overwriter())
 			{
 				writer.writeLine(lines.uppercased);
 			}
@@ -569,7 +577,7 @@ class FirstSteps()
 		OpenFile openFile = newOpenFile(outputPath.resource);
 		ByteBuffer buffer = newByteBuffer(4096);
 		Integer readNb = openFile.read(buffer);
-		print("Has read ``readNb`` bytes from ``projectPath.absolutePath``");
+		print("Has read ``readNb`` bytes from ``projectFilePath.absolutePath``");
 		value byteSequence = buffer.sequence();
 		value changedBuffer = newByteBuffer(byteSequence.size);
 		for (byte in byteSequence.reversed)

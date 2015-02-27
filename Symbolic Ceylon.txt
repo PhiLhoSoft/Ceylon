@@ -221,6 +221,8 @@ UnmodifiableList	ωⓛ
 UnmodifiableMap	ωⓜ
 UnmodifiableSet	ωⓢ
 
+Name parts:
+
 Hash	Φ	\u03A6	GREEK CAPITAL LETTER PHI
 Identity	φ	\u03C6	GREEK SMALL LETTER PHI
 Singleton	ψ	\u03C8	GREEK SMALL LETTER PSI
@@ -246,6 +248,10 @@ parseURI	◗	\u25D7	RIGHT HALF BLACK CIRCLE
 
 #### Attributes and methods
 
+equals
+hash
+string
+
 size	±	\u00B1	PLUS-MINUS SIGN
 empty	⌇	\u2307	WAVY LINE
 infinite	∞	\u221E	INFINITY
@@ -254,6 +260,13 @@ uppercased	⋏	\u22CF	CURLY LOGICAL AND
 lowercased	⋎	\u22CE	CURLY LOGICAL OR
 normalized
 magnitude
+replace
+replaceFirst
+split
+join
+startsWith
+endsWith
+contains
 
 get
 pop
@@ -263,12 +276,10 @@ put
 offer
 push
 sort
-replace
-replaceFirst
-split
-startsWith
-endsWith
-contains
+first
+rest
+
+map
 
 
 ### Common types, functions, attributes, methods in ceylon.io and ceylon.file
