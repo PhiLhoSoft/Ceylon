@@ -559,7 +559,7 @@ class FirstSteps()
 			}
 		}
 		Path outputPath = parsePath("./output.txt");
-		// See below
+		// See below's createFileIfNil
 		//if (is Nil resource = outputPath.resource)
 		//{
 		//	resource.createFile();
@@ -578,6 +578,7 @@ class FirstSteps()
 		ByteBuffer buffer = newByteBuffer(4096);
 		Integer readNb = openFile.read(buffer);
 		print("Has read ``readNb`` bytes from ``projectFilePath.absolutePath``");
+		buffer.flip();
 		value byteSequence = buffer.sequence();
 		value changedBuffer = newByteBuffer(byteSequence.size);
 		for (byte in byteSequence.reversed)
@@ -585,9 +586,10 @@ class FirstSteps()
 			changedBuffer.putByte(byte);
 		}
 //		openFile.position
+		changedBuffer.flip();
+		openFile.position = 0;
 		Integer writeNb = openFile.write(changedBuffer);
 		print("Has written ``writeNb`` bytes to ``outputPath.absolutePath``");
-		buffer.flip();
 		openFile.close();
 	}
 }

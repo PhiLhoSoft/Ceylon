@@ -1,6 +1,7 @@
 *.class
 *.lnk
 *.old
+output.txt
 .ceylon/
 .exploded/
 .settings/
