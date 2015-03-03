@@ -1,8 +1,7 @@
 import ceylon.collection { HashSet, HashMap, LinkedList }
 import ceylon.io { OpenFile, newOpenFile }
 import ceylon.io.buffer { ByteBuffer, newByteBuffer }
-import ceylon.file { File, Path, Nil, parsePath,
-	createFileIfNil }
+import ceylon.file { Path, Directory, File, Nil, Visitor, parsePath, createFileIfNil }
 
 // See Enumerated types. Must be top-level...
 // Idea taken from the Java enum tutorial.
@@ -558,13 +557,13 @@ class FirstSteps()
 				lines = readAllLines(reader);
 			}
 		}
-		Path outputPath = parsePath("./output.txt");
+		Path outputPath1 = parsePath("./output1.txt");
 		// See below's createFileIfNil
 		//if (is Nil resource = outputPath.resource)
 		//{
 		//	resource.createFile();
 		//}
-		if (is File | Nil outputResource = outputPath.resource)
+		if (is File | Nil outputResource = outputPath1.resource)
 		{
 			value outputFile = createFileIfNil(outputResource);
 
@@ -574,10 +573,11 @@ class FirstSteps()
 			}
 		}
 
-		OpenFile openFile = newOpenFile(outputPath.resource);
+		OpenFile openFile = newOpenFile(parsePath("./output2.txt").resource);
 		ByteBuffer buffer = newByteBuffer(4096);
-		Integer readNb = openFile.read(buffer);
-		print("Has read ``readNb`` bytes from ``projectFilePath.absolutePath``");
+		value toRead = newOpenFile(outputPath1.resource);
+		Integer readNb = toRead.read(buffer);
+		print("Has read ``readNb`` bytes from ``classFilePath.absolutePath``");
 		buffer.flip();
 		value byteSequence = buffer.sequence();
 		value changedBuffer = newByteBuffer(byteSequence.size);
@@ -585,11 +585,27 @@ class FirstSteps()
 		{
 			changedBuffer.putByte(byte);
 		}
-//		openFile.position
 		changedBuffer.flip();
 		openFile.position = 0;
 		Integer writeNb = openFile.write(changedBuffer);
-		print("Has written ``writeNb`` bytes to ``outputPath.absolutePath``");
+		print("Has written ``writeNb`` bytes to ``outputPath1.absolutePath``");
 		openFile.close();
+
+		if (is Directory dir = projectPath.resource)
+		{
+			for (path in dir.childPaths())
+			{
+				print(path);
+			}
+		}
+		else
+		{
+			print("Directory does not exist");
+		}
+		object visitor extends Visitor()
+		{
+			file(File f) => print(f.path.string + "\t" + (f.contentType else "?"));
+		}
+		projectPath.visit(visitor);
 	}
 }
